@@ -13,19 +13,19 @@
 		</div>
 	</div>
 	
-	{% for r in result %}
+	{% for item in result %}
 		<div class="container-fluid result-show">
 			<div class="row">
 			  <div class="col-md-4 col-xs-1"></div>
 			  <div class="col-md-4 col-xs-10">
 			  	<div class="result-container">
-			  		<a href="/detail?name={{r['DrugName']}}">
+			  		<a href="/detail?name={{item['DrugName']}}">
 			  			<div class="result-header">
-			  				<h2>{{ r['DrugName'] }}</h2>
+			  				<h2>{{ item['DrugName'] }}</h2>
 			  			</div>
 			  			<div class="result-shop">
 			  				<span>共有 </span>
-			  				<span>{{ count }}</span>
+			  				<span>{{ item['storeCount'] }}</span>
 			  				<span> 家药店拥有此药品</span>
 			  			</div>
 			  		</a>

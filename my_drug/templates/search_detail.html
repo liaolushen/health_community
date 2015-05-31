@@ -3,37 +3,39 @@
 {% block body %}
 <div class="container-fluid result-detail-fix">
 	<div class="row">
-	  <div class="col-md-4 col-xs-12">
+	  <div class="col-md-12 col-xs-12">
 	  	<div class="result-detail">
 	  		
 	  		<div class="detail-rows">
 	  			<span class="label">药品</span>
-	  			<span class="value">{{ detail[0]['DrugName'] }}</span>
+	  			<span class="value">{{ detail['DrugName'] }}</span>
 	  		</div>
 
 	  		<div class="detail-rows">
 	  			<span class="label">功能</span>
-	  			<span class="value">暂未明确</span>
+	  			<span class="value">{{ detail['Function'] }}</span>
 	  		</div>
 
 	  		<div class="detail-rows">
 	  			<span class="label">药店</span>
-	  			<span class="value">{{ detail.count() }}家</span>
+	  			<span class="value">{{ len(detail["DrugStore"]) }}家</span>
 	  		</div>
 
 	  		<div class="detail-shop">
 	  			<table class="table table-striped remove-table-margin">
-				  <tr>
-				  	<th class="col-md-2 col-xs-1">药店</th>
-				  	<th class="col-md-8 col-xs-10 shop-title">地址</th>
-				  	<th class="col-md-2 col-xs-1 shop-title">电话</th>
+				  <tr class="row">
+				  	<th class="col-md-2 col-sm-2 col-xs-3">药店</th>
+				  	<th class="col-md-5 col-sm-5 col-xs-4 shop-title">地址</th>
+				  	<th class="col-md-2 col-sm-2 col-xs-3 shop-title">电话</th>
+				  	<th class="col-md-3 col-sm-3 col-xs-2 shop-title">所属社区</th>
 				  </tr>
 				  
-				  {% for d in detail %}
-					  <tr>
-					  	<td class="col-md-2 col-xs-1 shop-list">{{ d['ShopName'] }}</td>
-					  	<td class="col-md-8 col-xs-10 shop-list shop-title">{{ d['Address'] }}</td>
-					  	<td class="col-md-2 col-xs-1 shop-list shop-title">{{ d['Tel'] }}</td>
+				  {% for item in detail["DrugStore"] %}
+					  <tr class="row">
+					  	<td class="col-md-2 col-sm-2 col-xs-3 shop-list">{{ item['ShopName'] }}</td>
+					  	<td class="col-md-5 col-sm-5 col-xs-4 shop-list shop-title">{{ item['Address'] }}</td>
+					  	<td class="col-md-2 col-sm-2 col-xs-3 shop-list shop-title">{{ item['Tel'] }}</td>
+					  	<td class="col-md-3 col-sm-3 col-xs-2 shop-list shop-title">{{ item['BelongTo'] }}</td>
 					  </tr>
 				  {% end %}
 
