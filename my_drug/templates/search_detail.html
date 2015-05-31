@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container-fluid result-detail-fix">
+	<div class="row">
+	  <div class="col-md-4 col-xs-12">
+	  	<div class="result-detail">
+	  		
+	  		<div class="detail-rows">
+	  			<span class="label">药品</span>
+	  			<span class="value">{{ detail[0]['DrugName'] }}</span>
+	  		</div>
+
+	  		<div class="detail-rows">
+	  			<span class="label">功能</span>
+	  			<span class="value">暂未明确</span>
+	  		</div>
+
+	  		<div class="detail-rows">
+	  			<span class="label">药店</span>
+	  			<span class="value">{{ detail.count() }}家</span>
+	  		</div>
+
+	  		<div class="detail-shop">
+	  			<table class="table table-striped remove-table-margin">
+				  <tr>
+				  	<th class="col-md-2 col-xs-1">药店</th>
+				  	<th class="col-md-8 col-xs-10 shop-title">地址</th>
+				  	<th class="col-md-2 col-xs-1 shop-title">电话</th>
+				  </tr>
+				  
+				  {% for d in detail %}
+					  <tr>
+					  	<td class="col-md-2 col-xs-1 shop-list">{{ d['ShopName'] }}</td>
+					  	<td class="col-md-8 col-xs-10 shop-list shop-title">{{ d['Address'] }}</td>
+					  	<td class="col-md-2 col-xs-1 shop-list shop-title">{{ d['Tel'] }}</td>
+					  </tr>
+				  {% end %}
+
+				</table>
+	  		</div>
+
+	  	</div>
+	  </div>
+	</div>
+	</div>
+{% end %}
