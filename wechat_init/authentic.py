@@ -27,4 +27,4 @@ def wechat_auth():
     return make_response(echostr)
 
 if __name__ == '__main__':
-  app.run(post='0.0.0.0', port=8000)
+  app.run(post='0.0.0.0', port=80)
