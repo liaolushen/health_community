@@ -12,7 +12,7 @@ import hashlib
 
 def checksignature(signature, timestamp, nonce):
   args = []
-  args.append('Health Community')
+  args.append('HealthCommunity')
   args.append(timestamp)
   args.append(nonce)
   args.sort()
