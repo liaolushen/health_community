@@ -9,8 +9,8 @@ import urllib2
 import json
 
 getUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s"
-appid = "wxac5aef1e95bbecb5"
-appsecret = "8562fa3feededc00c898afa4dec61cef"
+appid = "wxfb869bb2666de5ad"
+appsecret = "3ca4d15d14e2f61cee55e52edb53dd3f"
 
 def getAccessToken():
     url = getUrl % (appid, appsecret)
