@@ -43,7 +43,7 @@ menu = '''{
            [{
                "type":"click",
                "name":"专家帮忙",
-               "key":"专家帮忙"
+               "key":"expertHelp"
             },
             {
                "type":"view",

@@ -50,8 +50,7 @@ class MainHandler(tornado.web.RequestHandler):
     if data.find('MsgType').text === "event": # 发送的消息是event类型
       if data.find('Event').text === "CLICK": # 点击菜单拉取消息时的事件推送
         if data.find('EventKry').text === "expertHelp": #点击的是“专家帮忙”按钮
-          dkfExpertHelp.connectKf(data)
-
+          self.write(dkfExpertHelp.connectKf(data))
 
 
 
