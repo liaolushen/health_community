@@ -21,9 +21,9 @@ def connectReply(data):
   return replyMsg % (fromuser, touser, str(int(time.time())), replyContent)
 
 def connectExport(data):
-	touser = data.find('ToUserName').text
-	fromuser = data.fi]('FromUserName').text
-	replyMsg = """<xml>
+  touser = data.find('ToUserName').text
+  fromuser = data.find('FromUserName').text
+  replyMsg = """<xml>
                   <ToUserName><![CDATA[%s]]></ToUserName>
                   <FromUserName><![CDATA[%s]]></FromUserName>
                   <CreateTime>%s</CreateTime>
