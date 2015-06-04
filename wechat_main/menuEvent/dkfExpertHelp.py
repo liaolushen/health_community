@@ -19,3 +19,14 @@ def connectReply(data):
                 </xml>"""
   replyContent = "请输入“请求专家帮助”来联系专家"
   return replyMsg % (fromuser, touser, str(int(time.time())), replyContent)
+
+def connectExport(data):
+	touser = data.find('ToUserName').text
+	fromuser = data.fi]('FromUserName').text
+	replyMsg = """<xml>
+                  <ToUserName><![CDATA[%s]]></ToUserName>
+                  <FromUserName><![CDATA[%s]]></FromUserName>
+                  <CreateTime>%s</CreateTime>
+                  <MsgType><![CDATA[transfer_customer_service]]></MsgType>
+                </xml>"""
+  return replyMsg % (fromuser, touser, str(int(time.time())))
