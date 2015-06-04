@@ -5,7 +5,7 @@
 
 __author__ = 'Lushen Liao'
 
-def  connectKf(data):
+def connectKf(data):
   touser = data.find('ToUserName').text
   fromuser = data.find('FromUserName').text
   replyMsg = """<xml>
@@ -15,4 +15,3 @@ def  connectKf(data):
                   <MsgType><![CDATA[transfer_customer_service]]></MsgType>
                 </xml>"""
   return replyMsg % (fromuser, touser,  str(int(time.time()))
-  self.write(out)
