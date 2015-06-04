@@ -5,13 +5,17 @@
 
 __author__ = 'Lushen Liao'
 
-def connectKf(data):
+import time
+
+def connectReply(data):
   touser = data.find('ToUserName').text
   fromuser = data.find('FromUserName').text
   replyMsg = """<xml>
                   <ToUserName><![CDATA[%s]]></ToUserName>
                   <FromUserName><![CDATA[%s]]></FromUserName>
                   <CreateTime>%s</CreateTime>
-                  <MsgType><![CDATA[transfer_customer_service]]></MsgType>
+                  <MsgType><![CDATA[text]]></MsgType>
+                  <Content><![CDATA[%s]]></Content>
                 </xml>"""
-  return replyMsg % (fromuser, touser,  str(int(time.time())))
+  replyContent = "请输入“请求专家帮助”来联系专家"
+  return replyMsg % (fromuser, touser, str(int(time())), replyContent)
