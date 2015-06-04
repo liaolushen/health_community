@@ -46,7 +46,7 @@ class MainHandler(tornado.web.RequestHandler):
         if data.find('EventKey').text == "expertHelp": #点击的是“专家帮忙”按钮
           self.write(dEH.connectReply(data))
     if data.find('MsgType').text == "text":
-      if data.find('Content').text == "请求专家帮助":
+      if data.find('Content').text.encode("utf-8") == "请求专家帮助":
         self.write(dEH.connectExport(data))
 
 application = tornado.web.Application([
