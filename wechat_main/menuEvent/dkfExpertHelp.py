@@ -18,4 +18,4 @@ def connectReply(data):
                   <Content><![CDATA[%s]]></Content>
                 </xml>"""
   replyContent = "请输入“请求专家帮助”来联系专家"
-  return replyMsg % (fromuser, touser, str(int(time())), replyContent)
+  return replyMsg % (fromuser, touser, str(int(time.time())), replyContent)

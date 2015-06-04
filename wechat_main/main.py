@@ -9,7 +9,7 @@ import tornado.ioloop
 import tornado.web
 import hashlib
 import xml.etree.ElementTree as ET
-import menuEvent.dkfExpertHelp
+import menuEvent.dkfExpertHelp as EH
 
 
 
@@ -43,8 +43,8 @@ class MainHandler(tornado.web.RequestHandler):
 
     if data.find('MsgType').text == "event": # 发送的消息是event类型
       if data.find('Event').text == "CLICK": # 点击菜单拉取消息时的事件推送
-        if data.find('EventKry').text == "expertHelp": #点击的是“专家帮忙”按钮
-          self.write(dkfExpertHelp.connectReply(data))
+        if data.find('EventKey').text == "expertHelp": #点击的是“专家帮忙”按钮
+          self.write(EH.connectReply(data))
 
 
 
