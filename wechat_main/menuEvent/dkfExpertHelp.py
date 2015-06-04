@@ -14,4 +14,4 @@ def connectKf(data):
                   <CreateTime>%s</CreateTime>
                   <MsgType><![CDATA[transfer_customer_service]]></MsgType>
                 </xml>"""
-  return replyMsg % (fromuser, touser,  str(int(time.time()))
+  return replyMsg % (fromuser, touser,  str(int(time.time())))
