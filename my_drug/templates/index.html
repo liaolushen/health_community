@@ -5,30 +5,71 @@
 	<div class="logo">
 		<div class="container-fluid">
 			<div class="row">
-			  <div class="col-md-4 col-xs-3"></div>
-			  <div class="col-md-4 col-xs-6 img-center">
-			  	<img src="{{ static_url('image/logo.png') }}" alt="社区小康" class="change-img">
-				<img src="{{ static_url('image/word.png') }}" alt="社区小康" class="change-word">
-			  </div>
-			  <div class="col-md-4 col-xs-3"></div>
+				<div class="col-md-4 col-xs-3"></div>
+				<div class="col-md-4 col-xs-6 img-center">
+					<img src="{{ static_url('image/logo.png') }}" alt="社区小康" class="change-img">
+					<img src="{{ static_url('image/word.png') }}" alt="社区小康" class="change-word">
+				</div>
+				<div class="col-md-4 col-xs-3"></div>
 			</div>
 		</div>
 	</div>
-
+	<div class="description">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-4 col-xs-1"></div>
+				<div class="col-md-4 col-xs-10">
+					<p>说明:药名关键字、功能两种检索方式均可帮助您查找到所需药品，社区定位将帮助您查找到所需药品所在最近药店</p>
+				</div>
+				<div class="col-md-4 col-xs-1"></div>
+			</div>
+		</div>
+	</div>
 	<div class="search-bar">
 		<form action="/result" method="post">
-			<div class="container-fluid">
-				<div class="row">
-				  <div class="col-md-4 col-xs-1"></div>
-				  <div class="col-md-4 col-xs-10">
-				  	<input type="text" class="form-control fix-width-for-input" placeholder="请输入你要查找的药品" name="query" required>
-				  	<input class="btn btn-default btn-search-index" type="submit" value="搜索" />
-				  </div>
-				  <div class="col-md-4 col-xs-1"></div>
+			<div class="serach-input">
+				<input type="text" class="form-control fix-width-for-input" placeholder="请输入你要查找的药品" name="query" required>
+				<!-- <input class="btn btn-default btn-search-index" type="submit" value="搜索" /> -->
+			</div>
+			<div class="search-community">
+				<div class="dropdown">
+				  <button class="btn btn-default dropdown-toggle search-select" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">
+				    <span class="search-select-content">金羊社区</span>
+				    <span class="caret search-caret"></span>
+				    <input class="search-input-hidden" name="community">
+				  </button>
+				  <ul class="dropdown-menu search-menu" role="menu" aria-labelledby="dropdownMenu2">
+				    <li role="presentation" class="search-li">金羊社区</li>
+				    <li role="presentation" class="search-li">农林上社区</li>
+				    <li role="presentation" class="search-li">东园新村社区</li>
+				  </ul>
 				</div>
 			</div>
+
+			<div class="search-function">
+				<div class="dropdown">
+				  <button class="btn btn-default dropdown-toggle search-select" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">
+				    <span class="search-function-content">头晕</span>
+				    <span class="caret search-caret"></span>
+				    <input class="search-input-func-hidden" name="func">
+				  </button>
+				  <ul class="dropdown-menu search-menu" role="menu" aria-labelledby="dropdownMenu2">
+				    <li role="presentation" class="search-func-li">头晕</li>
+				    <li role="presentation" class="search-func-li">头痛</li>
+				    <li role="presentation" class="search-func-li">呕吐</li>
+				    <li role="presentation" class="search-func-li">胸闷</li>
+				    <li role="presentation" class="search-func-li">怀孕</li>
+				    <li role="presentation" class="search-func-li">脚痛</li>
+				    <li role="presentation" class="search-func-li">手痛</li>
+				    <li role="presentation" class="search-func-li">胸痛</li>
+				  </ul>
+				</div>
+			</div>
+			
+			<button class="btn btn-default btn-search" type="submit">查询</button>
+
+
 		</form>
 	</div>
-
 </div>
 {% end %}

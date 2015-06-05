@@ -45,23 +45,63 @@ html, body {
 .content .search {
 	width: 100%;
 	position: absolute;
-	top: 50%;
+	top: 30%;
 	margin-top: -110px;
 }
 
-.search-bar .row .fix-width-for-input {
-	width: 100%;
-	vertical-align: -2px;
-	float: left;
+.content .search .search-bar {
+	width: 78%;
+	margin-left: 12%;
+	position: relative;
 }
 
 .search-bar .btn-search-index {
 	position: absolute;
 	top: 0;
-	right: 5%;
+	right: 5px;
 	border: 0;
 	background: none;
 }
+
+.search-bar .search-select {
+	width: 100%;
+	text-align: left;
+	position: relative;
+	margin-top: 10px;
+}
+
+.search-bar .search-caret {
+	position: absolute;
+	top: 15px;
+	right: 10px;
+}
+
+.search-bar .search-menu {
+	width: 100%;
+}
+
+.search-bar .search-function .search-menu {
+	height: 160px;
+	overflow: scroll;
+}
+
+.search-bar .search-menu li {
+	padding: 6px 12px;
+}
+
+.search .search-community .search-input-hidden {
+	display: none;
+}
+
+.search .search-function .search-input-func-hidden {
+	display: none;
+}
+
+.search-bar .btn-search {
+	margin-top: 10px;
+	width: 100%;
+}
+
 
 .content .logo {
 	margin-bottom: 10px;
@@ -178,4 +218,11 @@ html, body {
 	width: 100%;
 	position: absolute;
 	top: 10%;
+}
+
+.search .description p {
+	color: rgba(0,0,0,.6);
+	padding: 0 5px;
+	padding-left: 6px;
+	text-align: center;
 }
