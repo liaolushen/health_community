@@ -16,7 +16,7 @@ define("port", default=8000, help="run on the given port", type=int)
 class Application(tornado.web.Application):
   def __init__(self):
     settings = dict (
-      handlers=[(r'/', SearchHandler), (r'/result', ResultHandler), (r'/detail', DetailHandler)],
+      handlers=[(r'/', SearchHandler), (r'/result', ResultHandler), (r'/detail/(.*)/(.*)', DetailHandler)],
       template_path=os.path.join(os.path.dirname(__file__), "templates"),
       static_path=os.path.join(os.path.dirname(__file__), "static"),
       debug=True
@@ -32,24 +32,35 @@ class SearchHandler(tornado.web.RequestHandler):
 class ResultHandler(tornado.web.RequestHandler):
   '''A RequestHandler to result'''
   def post(self):
-    query = self.get_argument('query', None)
+    name_query = self.get_argument('name_query', None)
+    func_query = self.get_argument('func_query', None)
     result = []
     flag = True
     coll = self.application.db.medicine
-    for doc in coll.find().sort("DrugName"):
-      if query in doc["DrugName"]:
-        name = doc["DrugName"]
-        storeCount = len(doc["DrugStore"])
-        result.append({"DrugName":name,"storeCount":storeCount})
-    self.render("search_result.html", query=query, result=result, is_index=False)
+    if func_query.encode("utf-8") == "全部药品":
+      for doc in coll.find().sort("DrugName"):
+        if name_query in doc["DrugName"]:
+          name = doc["DrugName"]
+          storeCount = len(doc["DrugStore"])
+          result.append({"DrugName":name,"storeCount":storeCount})
+    else:
+      for doc in coll.find({"Function":func_query}).sort("DrugName"):
+        if name_query in doc["DrugName"]:
+          name = doc["DrugName"]
+          storeCount = len(doc["DrugStore"])
+          result.append({"DrugName":name,"storeCount":storeCount})
+    self.render("search_result.html", name_query=name_query, func_query=func_query,
+                                      community = self.get_argument("community"), result=result,
+                                      is_index=False)
 
 class DetailHandler(tornado.web.RequestHandler):
   """docstring for DetailHandler"""
-  def get(self):
+  def get(self, *args):
     coll = self.application.db.medicine
-    name = self.get_argument('name', None)
-    detail = coll.find_one({"DrugName":name})
-    self.render("search_detail.html", detail=detail, is_index=False)
+    locate = args[0]
+    drugname = args[1]
+    detail = coll.find_one({"DrugName":drugname})
+    self.render("search_detail.html", detail=detail, locate=locate, is_index=False)
     
 
 if __name__ == '__main__':

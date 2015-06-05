@@ -31,12 +31,24 @@
 				  </tr>
 				  
 				  {% for item in detail["DrugStore"] %}
+				    {% if item['BelongTo'] == locate %}
 					  <tr class="row">
 					  	<td class="col-md-2 col-sm-2 col-xs-3 shop-list">{{ item['ShopName'] }}</td>
 					  	<td class="col-md-5 col-sm-5 col-xs-4 shop-list shop-title">{{ item['Address'] }}</td>
 					  	<td class="col-md-2 col-sm-2 col-xs-3 shop-list shop-title">{{ item['Tel'] }}</td>
 					  	<td class="col-md-3 col-sm-3 col-xs-2 shop-list shop-title">{{ item['BelongTo'] }}</td>
 					  </tr>
+					{% end %}
+				  {% end %}
+				  {% for item in detail["DrugStore"] %}
+				    {% if item['BelongTo'] != locate %}
+					  <tr class="row">
+					  	<td class="col-md-2 col-sm-2 col-xs-3 shop-list">{{ item['ShopName'] }}</td>
+					  	<td class="col-md-5 col-sm-5 col-xs-4 shop-list shop-title">{{ item['Address'] }}</td>
+					  	<td class="col-md-2 col-sm-2 col-xs-3 shop-list shop-title">{{ item['Tel'] }}</td>
+					  	<td class="col-md-3 col-sm-3 col-xs-2 shop-list shop-title">{{ item['BelongTo'] }}</td>
+					  </tr>
+					{% end %}
 				  {% end %}
 
 				</table>

@@ -28,20 +28,19 @@
 	<div class="search-bar">
 		<form action="/result" method="post">
 			<div class="serach-input">
-				<input type="text" class="form-control fix-width-for-input" placeholder="请输入你要查找的药品" name="query" required>
-				<!-- <input class="btn btn-default btn-search-index" type="submit" value="搜索" /> -->
+				<input type="text" class="form-control fix-width-for-input" placeholder="请输入你要查找的药品" name="name_query" required>
 			</div>
 			<div class="search-community">
 				<div class="dropdown">
 				  <button class="btn btn-default dropdown-toggle search-select" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">
 				    <span class="search-select-content">金羊社区</span>
 				    <span class="caret search-caret"></span>
-				    <input class="search-input-hidden" name="community">
+				    <input class="search-input-hidden" name="community" value="金羊社区">
 				  </button>
 				  <ul class="dropdown-menu search-menu" role="menu" aria-labelledby="dropdownMenu2">
-				    <li role="presentation" class="search-li">金羊社区</li>
-				    <li role="presentation" class="search-li">农林上社区</li>
-				    <li role="presentation" class="search-li">东园新村社区</li>
+				    {% for item in ["金羊社区", "农林上社区", "东园新村社区"] %}
+				      <li role="presentation" class="search-li">{{ item }}</li>
+				    {% end %}
 				  </ul>
 				</div>
 			</div>
@@ -49,20 +48,15 @@
 			<div class="search-function">
 				<div class="dropdown">
 				  <button class="btn btn-default dropdown-toggle search-select" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">
-				    <span class="search-function-content">头晕</span>
+				    <span class="search-function-content">请选择药品功能</span>
 				    <span class="caret search-caret"></span>
-				    <input class="search-input-func-hidden" name="func">
+				    <input class="search-input-func-hidden" name="func_query" value="全部药品">
 				  </button>
 				  <ul class="dropdown-menu search-menu" role="menu" aria-labelledby="dropdownMenu2">
-				    <li role="presentation" class="search-func-li">头晕</li>
-				    <li role="presentation" class="search-func-li">头痛</li>
-				    <li role="presentation" class="search-func-li">呕吐</li>
-				    <li role="presentation" class="search-func-li">胸闷</li>
-				    <li role="presentation" class="search-func-li">怀孕</li>
-				    <li role="presentation" class="search-func-li">脚痛</li>
-				    <li role="presentation" class="search-func-li">手痛</li>
-				    <li role="presentation" class="search-func-li">胸痛</li>
-				  </ul>
+				    {% for item in ["抗生素类药品","心脑血管用药","消化系统用药","呼吸系统用药","泌尿系统用药","血液系统用药","五官科用药","抗风湿类药品","注射剂类药品","糖尿病用药","激素类药品","皮肤科用药","妇科用药","抗肿瘤用药","抗精神病药品","清热解毒药品","抗晕抗过敏药","滋补类药品","维生素、矿物质药品"]%}
+				      <li role="presentation" class="search-func-li">{{ item }}</li>
+				    {% end %}
+				</ul>
 				</div>
 			</div>
 			

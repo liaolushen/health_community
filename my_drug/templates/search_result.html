@@ -7,7 +7,8 @@
 			<div class="row">
 			  <div class="col-md-4 col-xs-1"></div>
 			  <div class="col-md-4 col-xs-10 img-center">
-			  	<p class="weight-word">“{{ query }}”的搜索结果</p>
+			    <p class="weight-word">{{ func_query }}</p>
+			  	<p class="weight-word">“{{ name_query }}”的搜索结果</p>
 			  </div>
 			</div>
 		</div>
@@ -19,7 +20,7 @@
 			  <div class="col-md-4 col-xs-1"></div>
 			  <div class="col-md-4 col-xs-10">
 			  	<div class="result-container">
-			  		<a href="/detail?name={{item['DrugName']}}">
+			  		<a href="/detail/{{ community }}/{{item['DrugName']}}">
 			  			<div class="result-header">
 			  				<h2>{{ item['DrugName'] }}</h2>
 			  			</div>
