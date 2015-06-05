@@ -62,7 +62,7 @@ menu = '''{
             {
                "type":"click",
                "name":"我的医生",
-               "key":"V1001_huabei"
+               "key":"myDoctor"
             },
             {
                "type":"click",

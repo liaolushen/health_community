@@ -17,10 +17,10 @@ def connectReply(data):
                   <MsgType><![CDATA[text]]></MsgType>
                   <Content><![CDATA[%s]]></Content>
                 </xml>"""
-  replyContent = "请输入“请求专家帮助”来联系专家"
+  replyContent = "请输入“请求医生帮助”来联系医生"
   return replyMsg % (fromuser, touser, str(int(time.time())), replyContent)
 
-def connectExport(data):
+def connectDoctor(data):
   touser = data.find('ToUserName').text
   fromuser = data.find('FromUserName').text
   replyMsg = """<xml>
