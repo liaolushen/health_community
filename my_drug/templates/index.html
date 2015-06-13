@@ -53,7 +53,8 @@
 				    <input class="search-input-func-hidden" name="func_query" value="全部药品">
 				  </button>
 				  <ul class="dropdown-menu search-menu" role="menu" aria-labelledby="dropdownMenu2">
-				    {% for item in ["抗生素类药品","心脑血管用药","消化系统用药","呼吸系统用药","泌尿系统用药","血液系统用药","五官科用药","抗风湿类药品","注射剂类药品","糖尿病用药","激素类药品","皮肤科用药","妇科用药","抗肿瘤用药","抗精神病药品","清热解毒药品","抗晕抗过敏药","滋补类药品","维生素、矿物质药品"]%}
+				    {% for item in ["抗感解热类","清热解毒类","化痰止咳类","益气安神","肠胃用药","消化系统用药","肝胆用药","肛肠外用","补肾类","补血类",
+				    "皮肤骨伤内服","皮肤外用","眼科用药","鼻科用药","咽喉用药","口腔用药","儿科用药","妇科内服药","妇科外用药","维生素矿物","易串味外用","OTC其他内服类"]%}
 				      <li role="presentation" class="search-func-li">{{ item }}</li>
 				    {% end %}
 				</ul>
