@@ -20,7 +20,7 @@
 			  <div class="col-md-4 col-xs-1"></div>
 			  <div class="col-md-4 col-xs-10">
 			  	<div class="result-container">
-			  		<a href="/detail/{{ community }}/{{item['DrugName']}}">
+			  		<a href="/detail/{{ community }}/{{item['DrugName'].replace('/', '%2F')}}">
 			  			<div class="result-header">
 			  				<h2>{{ item['DrugName'] }}</h2>
 			  			</div>
