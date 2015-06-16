@@ -30,7 +30,7 @@ class SearchHandler(tornado.web.RequestHandler):
     self.render('index.html', is_index=True)
 
 class ResultHandler(tornado.web.RequestHandler):
-  ''' 显示药品查询的结果 '''
+  '''A RequestHandler to result'''
   def post(self):
     #如果输入的为空字符串,则返回主页
     name_query_list = self.get_argument('name_query', None).split(' ')
@@ -63,7 +63,7 @@ class ResultHandler(tornado.web.RequestHandler):
                                       is_index=False)
 
 class DetailHandler(tornado.web.RequestHandler):
-  """ 显示药品查询的详情 """
+  """docstring for DetailHandler"""
   def get(self, *args):
     coll = self.application.db.medicine
     locate = args[0]
