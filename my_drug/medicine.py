@@ -34,11 +34,10 @@ class ResultHandler(tornado.web.RequestHandler):
   def post(self):
     #如果输入的为空字符串,则返回主页
     name_query_list = self.get_argument('name_query', None).split(' ')
-    for s in name_query_list:
-      if s == '':
-        name_query_list.remove(s)
-    if len(name_query_list) == 0:
+    name_query = "".join(name_query_list)
+    if name_query == '':
       self.redirect('/')
+    name_query_list = list(name_query)
 
     func_query = self.get_argument('func_query', None)
     coll = self.application.db.medicine
