@@ -19,7 +19,7 @@ def getAccessToken():
     f.close()
     if time.time() - f_content['create_time'] > 7000:
         updateAccessToken()
-        with open('../data/AccessToken.json', 'r') as f:
+        with open('data/AccessToken.json', 'r') as f:
             return json.loads(f.read())['access_token']
     return f_content['access_token']
 
@@ -32,7 +32,7 @@ def updateAccessToken():
     update_content['access_token'] = decode['access_token']
     update_content['create_time'] = time.time()
     update_content = json.dumps(update_content)
-    with open('../data/AccessToken.json', 'w') as f:
+    with open('data/AccessToken.json', 'w') as f:
         f.write(update_content)
 
 if __name__ == '__main__':
