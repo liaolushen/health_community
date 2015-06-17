@@ -10,7 +10,6 @@ import sys
 import json
 import urllib
 import urllib2
-import xml.etree.ElementTree as ET
 import threading
 from urllib import urlencode
 from os import sys, path
@@ -120,31 +119,6 @@ def getNewsJson(media_id):
   request = urllib2.urlopen(post_url, json.dumps(post_info))
   return json.loads(request.read())
 
-
-
-
-# <xml>
-# <ToUserName><![CDATA[toUser]]></ToUserName>
-# <FromUserName><![CDATA[fromUser]]></FromUserName>
-# <CreateTime>12345678</CreateTime>
-# <MsgType><![CDATA[news]]></MsgType>
-# <ArticleCount>2</ArticleCount>
-# <Articles>
-# <item>
-# <Title><![CDATA[title1]]></Title> 
-# <Description><![CDATA[description1]]></Description>
-# <PicUrl><![CDATA[picurl]]></PicUrl>
-# <Url><![CDATA[url]]></Url>
-# </item>
-# <item>
-# <Title><![CDATA[title]]></Title>
-# <Description><![CDATA[description]]></Description>
-# <PicUrl><![CDATA[picurl]]></PicUrl>
-# <Url><![CDATA[url]]></Url>
-# </item>
-# </Articles>
-# </xml> 
-
 def jsonToXML(news_json, data):
 
   itemXml = []
@@ -167,57 +141,14 @@ def jsonToXML(news_json, data):
                 <FromUserName><![CDATA[%s]]></FromUserName> 
                 <CreateTime>%s</CreateTime> 
                 <MsgType><![CDATA[news]]></MsgType> 
-                <ArticleCount>%d</ArticleCount> 
+                <ArticleCount>%s</ArticleCount> 
                 <Articles> 
-                    %s 
+                    %s
                 </Articles> 
             </xml> 
         """ % (data.find('FromUserName').text, data.find('ToUserName').text,
           str(int(time.time())), str(len(news_json['news_item'], " ".join(itemXml))
   return reply
-  # xml = ET.Element('xml')
-
-  # ToUserName = ET.SubElement(xml, 'ToUserName')
-  # ToUserName.text = "<![CDATA[" + data.find('FromUserName').text + "]]>"
-
-  # FromUserName = ET.SubElement(xml, 'FromUserName')
-  # FromUserName.text = "<![CDATA[" + data.find('ToUserName').text + "]]>"
-
-  # CreateTime = ET.SubElement(xml, 'CreateTime')
-  # CreateTime.text = str(int(time.time()))
-
-  # MsgType = ET.SubElement(xml, 'MsgType')
-  # MsgType.text = "<![CDATA[news]]>"
-
-  # ArticleCount = ET.SubElement(xml, 'ArticleCount')
-  # ArticleCount.text = str(len(news_json['news_item']))
-
-  # Articles = ET.SubElement(xml, 'Articles')
-
-  # for news_item in news_json['news_item']:
-  #   item = ET.SubElement(Articles, 'item')
-
-  #   Title = ET.SubElement(item, 'Title')
-  #   Title.text = "<![CDATA[" + news_item['title'] + "]]>"
-
-  #   Description = ET.SubElement(item, 'Description')
-  #   Description.text = "<![CDATA[" + news_item['digest'] + "]]>"
-
-  #   PicUrl = ET.SubElement(item, 'PicUrl')
-  #   PicUrl.text = "<![CDATA[" + "https://mmbiz.qlogo.cn/mmbiz/9OCyrGmkRVaqnAviagnR9nCWnrXNPWW7rteMXGOHu1Uc6VzkSNYTxF53IzW8AEricdFO33Qky5ia7591fOz3InB4Q/0?wx_fmt=jpeg" + "]]>"
-
-  #   Url = ET.SubElement(item, 'Url')
-  #   Url.text = "<![CDATA[" + news_item['url'] + "]]>"
-
-
-  return ET.tostring(xml)
-
-# def test(media_id):
-#   post_url = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=" + getAccessToken()
-#   post_info = {}
-#   post_info['media_id'] = media_id
-#   request = urllib2.urlopen(post_url, json.dumps(post_info))
-#   return request.read()
 
 if __name__ == "__main__":
   print getNewsJson(getMediaId('服务通知'))['news_item'][0]['thumb_media_id']
