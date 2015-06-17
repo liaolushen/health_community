@@ -148,7 +148,9 @@ def jsonToXML(news_json, data):
             </xml> 
         """ % (data.find('FromUserName').text, data.find('ToUserName').text,
           str(int(time.time())), str(len(news_json['news_item'], " ".join(itemXml))
-  return reply
+  response = make_response(reply)  
+  response.content_type = 'application/xml'  
+  return response
 
 if __name__ == "__main__":
   print getNewsJson(getMediaId('服务通知'))['news_item'][0]['thumb_media_id']
