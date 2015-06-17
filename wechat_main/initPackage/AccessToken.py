@@ -14,7 +14,7 @@ appid = "wxfb869bb2666de5ad"
 appsecret = "3ca4d15d14e2f61cee55e52edb53dd3f"
 
 def getAccessToken():
-    f = open('../data/AccessToken.json', 'r')
+    f = open('data/AccessToken.json', 'r')
     f_content = json.loads(f.read())
     f.close()
     if time.time() - f_content['create_time'] > 7000:
