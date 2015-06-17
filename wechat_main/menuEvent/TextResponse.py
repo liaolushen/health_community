@@ -146,39 +146,68 @@ def getNewsJson(media_id):
 # </xml> 
 
 def jsonToXML(news_json, data):
-  xml = ET.Element('xml')
 
-  ToUserName = ET.SubElement(xml, 'ToUserName')
-  ToUserName.text = "<![CDATA[" + data.find('FromUserName').text + "]]>"
-
-  FromUserName = ET.SubElement(xml, 'FromUserName')
-  FromUserName.text = "<![CDATA[" + data.find('ToUserName').text + "]]>"
-
-  CreateTime = ET.SubElement(xml, 'CreateTime')
-  CreateTime.text = str(int(time.time()))
-
-  MsgType = ET.SubElement(xml, 'MsgType')
-  MsgType.text = "<![CDATA[news]]>"
-
-  ArticleCount = ET.SubElement(xml, 'ArticleCount')
-  ArticleCount.text = str(len(news_json['news_item']))
-
-  Articles = ET.SubElement(xml, 'Articles')
-
+  itemXml = []
   for news_item in news_json['news_item']:
-    item = ET.SubElement(Articles, 'item')
+    singleXml = """ 
+        <item> 
+          <Title><![CDATA[%s]]></Title> 
+          <Description><![CDATA[%s]]></Description> 
+          <PicUrl><![CDATA[%s]]></PicUrl> 
+          <Url><![CDATA[%s]]></Url> 
+          </item> 
+        """ % (news_item['title'], news_item['digest'], 
+          "https://mmbiz.qlogo.cn/mmbiz/9OCyrGmkRVaqnAviagnR9nCWnrXNPWW7rteMXGOHu1Uc6VzkSNYTxF53IzW8AEricdFO33Qky5ia7591fOz3InB4Q/0?wx_fmt=jpeg", 
+          news_item['url'])
+    itemXml.append(singleXml)
 
-    Title = ET.SubElement(item, 'Title')
-    Title.text = "<![CDATA[" + news_item['title'] + "]]>"
+  reply = """ 
+            <xml> 
+                <ToUserName><![CDATA[%s]]></ToUserName> 
+                <FromUserName><![CDATA[%s]]></FromUserName> 
+                <CreateTime>%s</CreateTime> 
+                <MsgType><![CDATA[news]]></MsgType> 
+                <ArticleCount>%d</ArticleCount> 
+                <Articles> 
+                    %s 
+                </Articles> 
+            </xml> 
+        """ % (data.find('FromUserName').text, data.find('ToUserName').text,
+          str(int(time.time())), str(len(news_json['news_item'], " ".join(itemXml))
+  return reply
+  # xml = ET.Element('xml')
 
-    Description = ET.SubElement(item, 'Description')
-    Description.text = "<![CDATA[" + news_item['digest'] + "]]>"
+  # ToUserName = ET.SubElement(xml, 'ToUserName')
+  # ToUserName.text = "<![CDATA[" + data.find('FromUserName').text + "]]>"
 
-    PicUrl = ET.SubElement(item, 'PicUrl')
-    PicUrl.text = "<![CDATA[" + "https://mmbiz.qlogo.cn/mmbiz/9OCyrGmkRVaqnAviagnR9nCWnrXNPWW7rteMXGOHu1Uc6VzkSNYTxF53IzW8AEricdFO33Qky5ia7591fOz3InB4Q/0?wx_fmt=jpeg" + "]]>"
+  # FromUserName = ET.SubElement(xml, 'FromUserName')
+  # FromUserName.text = "<![CDATA[" + data.find('ToUserName').text + "]]>"
 
-    Url = ET.SubElement(item, 'Url')
-    Url.text = "<![CDATA[" + news_item['url'] + "]]>"
+  # CreateTime = ET.SubElement(xml, 'CreateTime')
+  # CreateTime.text = str(int(time.time()))
+
+  # MsgType = ET.SubElement(xml, 'MsgType')
+  # MsgType.text = "<![CDATA[news]]>"
+
+  # ArticleCount = ET.SubElement(xml, 'ArticleCount')
+  # ArticleCount.text = str(len(news_json['news_item']))
+
+  # Articles = ET.SubElement(xml, 'Articles')
+
+  # for news_item in news_json['news_item']:
+  #   item = ET.SubElement(Articles, 'item')
+
+  #   Title = ET.SubElement(item, 'Title')
+  #   Title.text = "<![CDATA[" + news_item['title'] + "]]>"
+
+  #   Description = ET.SubElement(item, 'Description')
+  #   Description.text = "<![CDATA[" + news_item['digest'] + "]]>"
+
+  #   PicUrl = ET.SubElement(item, 'PicUrl')
+  #   PicUrl.text = "<![CDATA[" + "https://mmbiz.qlogo.cn/mmbiz/9OCyrGmkRVaqnAviagnR9nCWnrXNPWW7rteMXGOHu1Uc6VzkSNYTxF53IzW8AEricdFO33Qky5ia7591fOz3InB4Q/0?wx_fmt=jpeg" + "]]>"
+
+  #   Url = ET.SubElement(item, 'Url')
+  #   Url.text = "<![CDATA[" + news_item['url'] + "]]>"
 
 
   return ET.tostring(xml)
