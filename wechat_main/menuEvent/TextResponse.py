@@ -147,7 +147,7 @@ def jsonToXML(news_json, data):
                 </Articles> 
             </xml> 
         """ % (data.find('FromUserName').text, data.find('ToUserName').text,
-          str(int(time.time())), str(len(news_json['news_item'], " ".join(itemXml))
+          str(int(time.time())), str(len(news_json['news_item'])), " ".join(itemXml))
   response = make_response(reply)  
   response.content_type = 'application/xml'  
   return response
