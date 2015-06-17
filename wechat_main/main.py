@@ -9,7 +9,8 @@ import tornado.ioloop
 import tornado.web
 import hashlib
 import xml.etree.ElementTree as ET
-import menuEvent.dkfExpertHelp as dEH
+import menuEvent.ClickEvent as CE
+import menuEvent.TextResponse as TR
 
 
 
@@ -43,11 +44,9 @@ class MainHandler(tornado.web.RequestHandler):
 
     if data.find('MsgType').text == "event": # 发送的消息是event类型
       if data.find('Event').text == "CLICK": # 点击菜单拉取消息时的事件推送
-        if data.find('EventKey').text == "myDoctor": #点击的是“我的医生”按钮
-          self.write(dEH.connectReply(data))
+        self.write(CE.clickRes(data))
     if data.find('MsgType').text == "text":
-      if data.find('Content').text.encode("utf-8") == "请求医生帮助":
-        self.write(dEH.connectDoctor(data))
+        self.write(TR.msgRes(data))
 
 application = tornado.web.Application([
   (r"/", MainHandler),
