@@ -57,7 +57,9 @@ def connectDKF(data):
 def getNews(data):
   media_id = getMediaId(data.find('Content').text)
   news_json = getNewsJson(media_id)
-  return ET.tostring(jsonToXML(news_json, data))
+  a = jsonToXML(news_json, data)
+  print a
+  return a
 
 def getMediaId(keyword):
   post_url = 'https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=' + getAccessToken()
@@ -75,7 +77,7 @@ def getMediaId(keyword):
     request = urllib2.urlopen(post_url, json.dumps(post_info))
     result = json.loads(request.read())
     while offset - post_info['offset'] < 5:
-      if keyword == result['item'][offset - post_info['offset']]['content']['news_item'][0]['title'].encode('utf-8').split('|')[0]:
+      if keyword == result['item'][offset - post_info['offset']]['content']['news_item'][0]['title'].split('|')[0]:
         res_info = {}
         res_info['media_id'] = result['item'][0]['media_id']
         res_info['update_time'] = result['item'][0]['update_time']
@@ -159,12 +161,13 @@ def jsonToXML(news_json, data):
   MsgType.text = "![CDATA[news]]"
 
   ArticleCount = ET.SubElement(xml, 'ArticleCount')
-  ArticleCount.text = len(news_json['news_item'])
+  ArticleCount.text = str(len(news_json['news_item']))
 
   Articles = ET.SubElement(xml, 'Articles')
 
   for news_item in news_json['news_item']:
-    item = ET.Element('item')
+    item = ET.SubElement(Articles, 'item')
+
     Title = ET.SubElement(item, 'Title')
     Title.text = "![CDATA[" + news_item['title'] + "]]"
 
@@ -177,9 +180,8 @@ def jsonToXML(news_json, data):
     Url = ET.SubElement(item, 'Url')
     Url.text = "![CDATA[" + news_item['url'] + "]]"
 
-    Articles.extend(item)
 
-  return xml
+  return ET.tostring(xml)
 
 # def test(media_id):
 #   post_url = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=" + getAccessToken()
