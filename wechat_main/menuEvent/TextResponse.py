@@ -149,16 +149,16 @@ def jsonToXML(news_json, data):
   xml = ET.Element('xml')
 
   ToUserName = ET.SubElement(xml, 'ToUserName')
-  ToUserName.text = "![CDATA[" + data.find('FromUserName').text + "]]"
+  ToUserName.text = "<![CDATA[" + data.find('FromUserName').text + "]]>"
 
   FromUserName = ET.SubElement(xml, 'FromUserName')
-  FromUserName.text = "![CDATA[" + data.find('ToUserName').text + "]]"
+  FromUserName.text = "<![CDATA[" + data.find('ToUserName').text + "]]>"
 
   CreateTime = ET.SubElement(xml, 'CreateTime')
   CreateTime.text = str(int(time.time()))
 
   MsgType = ET.SubElement(xml, 'MsgType')
-  MsgType.text = "![CDATA[news]]"
+  MsgType.text = "<![CDATA[news]]>"
 
   ArticleCount = ET.SubElement(xml, 'ArticleCount')
   ArticleCount.text = str(len(news_json['news_item']))
@@ -169,16 +169,16 @@ def jsonToXML(news_json, data):
     item = ET.SubElement(Articles, 'item')
 
     Title = ET.SubElement(item, 'Title')
-    Title.text = "![CDATA[" + news_item['title'] + "]]"
+    Title.text = "<![CDATA[" + news_item['title'] + "]]>"
 
     Description = ET.SubElement(item, 'Description')
-    Description.text = "![CDATA[" + news_item['digest'] + "]]"
+    Description.text = "<![CDATA[" + news_item['digest'] + "]]>"
 
     PicUrl = ET.SubElement(item, 'PicUrl')
-    PicUrl.text = "![CDATA[" + "https://mmbiz.qlogo.cn/mmbiz/9OCyrGmkRVaqnAviagnR9nCWnrXNPWW7rteMXGOHu1Uc6VzkSNYTxF53IzW8AEricdFO33Qky5ia7591fOz3InB4Q/0?wx_fmt=jpeg" + "]]"
+    PicUrl.text = "<![CDATA[" + "https://mmbiz.qlogo.cn/mmbiz/9OCyrGmkRVaqnAviagnR9nCWnrXNPWW7rteMXGOHu1Uc6VzkSNYTxF53IzW8AEricdFO33Qky5ia7591fOz3InB4Q/0?wx_fmt=jpeg" + "]]>"
 
     Url = ET.SubElement(item, 'Url')
-    Url.text = "![CDATA[" + news_item['url'] + "]]"
+    Url.text = "<![CDATA[" + news_item['url'] + "]]>"
 
 
   return ET.tostring(xml)
