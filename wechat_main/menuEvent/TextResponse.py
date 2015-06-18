@@ -78,8 +78,8 @@ def getMediaId(keyword):
     while offset - post_info['offset'] < 5:
       if keyword == result['item'][offset - post_info['offset']]['content']['news_item'][0]['title'].split('|')[0]:
         res_info = {}
-        res_info['media_id'] = result['item'][0]['media_id']
-        res_info['update_time'] = result['item'][0]['update_time']
+        res_info['media_id'] = result['item'][offset - post_info['offset']]['media_id']
+        res_info['update_time'] = result['item'][offset - post_info['offset']]['update_time']
         res_info_list.append(res_info)
         print 'success'
         return
