@@ -26,23 +26,8 @@ def msgRes(data):
     return connectOrderedDKF(data, '1003@health_community')
   if data.find('Content').text.encode("utf-8") == "请求医生帮助":
     return connectDKF(data)
-  if data.find('Content').text.encode("utf-8") == "政策解读":
-    return getNews(data)
-  if data.find('Content').text.encode("utf-8") == "疫情公布":
-    return getNews(data)
-  if data.find('Content').text.encode("utf-8") == "服务通知":
-    return getNews(data)
-  if data.find('Content').text.encode("utf-8") == "政务新闻":
-    return getNews(data)
-  if data.find('Content').text.encode("utf-8") == "膳食":
-    return getNews(data)
-  if data.find('Content').text.encode("utf-8") == "周边":
-    return getNews(data)
-  if data.find('Content').text.encode("utf-8") == "骨松":
-    return getNews(data)
-  if data.find('Content').text.encode("utf-8") == "糖尿病":
-    return getNews(data)
-  if data.find('Content').text.encode("utf-8") == "体检":
+  for item in ["政策解读", "疫情公布", "服务通知", "政务新闻", "膳食", "周边", "骨松", "糖尿病",
+  "体检", "肾病"]:
     return getNews(data)
   return ''
 
