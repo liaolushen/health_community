@@ -13,10 +13,10 @@ import urllib2
 import threading
 from urllib import urlencode
 from os import sys, path
-
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-
 from initPackage.AccessToken import getAccessToken
+import pymongo
+from pymongo import MongoClient
 
 
 def msgRes(data):
@@ -148,7 +148,7 @@ def jsonToXML(news_json, data):
           <Url><![CDATA[%s]]></Url> 
           </item> 
         """ % (news_item['title'], news_item['digest'], 
-          "https://mmbiz.qlogo.cn/mmbiz/9OCyrGmkRVaqnAviagnR9nCWnrXNPWW7rteMXGOHu1Uc6VzkSNYTxF53IzW8AEricdFO33Qky5ia7591fOz3InB4Q/0?wx_fmt=jpeg", 
+          getImageUrl(news_item['thumb_media_id']), 
           news_item['url'])
     itemXml.append(singleXml)
 
@@ -167,6 +167,12 @@ def jsonToXML(news_json, data):
           str(int(time.time())), str(len(news_json['news_item'])), " ".join(itemXml))
   return reply
 
-if __name__ == "__main__":
-  print getNewsJson(getMediaId('服务通知'))['news_item'][0]['thumb_media_id']
+def getImageUrl(media_id):
+  conn = MongoClient('localhost', 27017)
+  db = conn["wechat_main"]
+  coll = db["pic_source"]
+  return coll.find_one({'media_id':media_id})['url']
+
+# if __name__ == "__main__":
+#   print getNewsJson(getMediaId('服务通知'))
 

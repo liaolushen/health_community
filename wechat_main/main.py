@@ -11,7 +11,7 @@ import hashlib
 import xml.etree.ElementTree as ET
 import menuEvent.ClickEvent as CE
 import menuEvent.TextResponse as TR
-
+import updateData.updatePicData as uPD
 
 
 def checksignature(signature, timestamp, nonce):
@@ -46,7 +46,7 @@ class MainHandler(tornado.web.RequestHandler):
       if data.find('Event').text == "CLICK": # 点击菜单拉取消息时的事件推送
         self.write(CE.clickRes(data))
     if data.find('MsgType').text == "text":
-        self.write(TR.msgRes(data))
+      self.write(TR.msgRes(data))
 
 handlers = [
 	(r"/", MainHandler)
@@ -57,5 +57,8 @@ setting = dict(
 
 application = tornado.web.Application(handlers, **setting)
 if __name__ == "__main__":
+  #create a thread update pic datebase once a hour
+  uPD.PicUpdate(3600)
+
   application.listen(80)
   tornado.ioloop.IOLoop.instance().start()
