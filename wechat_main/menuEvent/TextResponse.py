@@ -57,7 +57,6 @@ def getNews(data):
   media_id = getMediaId(data.find('Content').text)
   news_json = getNewsJson(media_id)
   a = jsonToXML(news_json, data)
-  print a
   return a
 
 def getMediaId(keyword):
