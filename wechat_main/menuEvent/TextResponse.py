@@ -171,7 +171,9 @@ def getImageUrl(media_id):
   conn = MongoClient('localhost', 27017)
   db = conn["wechat_main"]
   coll = db["pic_source"]
-  return coll.find_one({'media_id':media_id})['url']
+  item =  coll.find_one({'media_id':media_id})
+  if item:
+    return item['url']
 
 # if __name__ == "__main__":
 #   print getNewsJson(getMediaId('服务通知'))
