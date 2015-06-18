@@ -48,10 +48,14 @@ class MainHandler(tornado.web.RequestHandler):
     if data.find('MsgType').text == "text":
         self.write(TR.msgRes(data))
 
-application = tornado.web.Application([
-  (r"/", MainHandler),
-])
+handlers = [
+	(r"/", MainHandler)
+]
+setting = dict(
+	debug=True
+)
 
+application = tornado.web.Application(handlers, **setting)
 if __name__ == "__main__":
   application.listen(80)
   tornado.ioloop.IOLoop.instance().start()
