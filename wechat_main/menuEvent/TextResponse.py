@@ -174,7 +174,9 @@ def getImageUrl(media_id):
   item =  coll.find_one({'media_id':media_id})
   if item:
     return item['url']
+  else:
+    return coll.find_one().['url']
 
-# if __name__ == "__main__":
-#   print getNewsJson(getMediaId('服务通知'))
+if __name__ == "__main__":
+  print getNewsJson(getMediaId('体检'))['news_item'][0]['thumb_media_id']
 

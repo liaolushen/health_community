@@ -47,9 +47,9 @@ def getTotalCount():
 
 def dbCheck(data):
   for item in data['item']:
+    print item['media_id']
     if not coll.find_one({'media_id':item['media_id']}):
       coll.insert_one({'media_id':item['media_id'], 'url':item['url']})
-      print item['media_id']
 
 if __name__ == '__main__':
   PicUpdate(3600)
