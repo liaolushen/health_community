@@ -20,6 +20,10 @@ from initPackage.AccessToken import getAccessToken
 
 
 def msgRes(data):
+  if data.find('Content').text.encode("utf-8") == "廖医生":
+    return connectOrderedDKF(data, '1000@health_community')
+  if data.find('Content').text.encode("utf-8") == "李药师":
+    return connectOrderedDKF(data, '1003@health_community')
   if data.find('Content').text.encode("utf-8") == "请求医生帮助":
     return connectDKF(data)
   if data.find('Content').text.encode("utf-8") == "政策解读":
@@ -41,6 +45,20 @@ def msgRes(data):
   if data.find('Content').text.encode("utf-8") == "体检":
     return getNews(data)
 
+def connectOrderedDKF(data, KfAccount):
+  touser = data.find('ToUserName').text
+  fromuser = data.find('FromUserName').text
+  replyMsg = """  <xml>
+                    <ToUserName><![CDATA[%s]]></ToUserName>
+                    <FromUserName><![CDATA[%s]]></FromUserName>
+                    <CreateTime>%s</CreateTime>
+                    <MsgType><![CDATA[transfer_customer_service]]></MsgType>
+                    <TransInfo>
+                      <KfAccount><![CDATA[%s]]></KfAccount>
+                    </TransInfo>
+                  </xml>"""
+  return replyMsg % (fromuser, touser, str(int(time.time())), KfAccount)
+
 def connectDKF(data):
   touser = data.find('ToUserName').text
   fromuser = data.find('FromUserName').text
@@ -51,7 +69,6 @@ def connectDKF(data):
                   <MsgType><![CDATA[transfer_customer_service]]></MsgType>
                 </xml>"""
   return replyMsg % (fromuser, touser, str(int(time.time())))
-
 
 def getNews(data):
   media_id = getMediaId(data.find('Content').text)
