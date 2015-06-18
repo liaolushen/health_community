@@ -28,6 +28,6 @@ def resContent(key):
   if key == 'cheap_info':
     return '最新社区周边优惠正在路上，敬请期待~'
   if key == 'my_doctor':
-    return '小康在你身边，专业医生随时与你沟通。现在的值班医生是廖医生，输入"廖医生"即可与廖医生进行实时对话~'
+    return '请输入“请求医生帮助”来联系医生'
   if key == 'my_pharmacist':
-    return '小康在你身边，专业药师随时与你沟通。现在的值班医生是李药师，输入"李药师"即可与廖医生进行实时对话~'
+    return ''

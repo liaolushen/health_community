@@ -57,17 +57,17 @@ menu = '''{
            [{
                "type":"click",
                "name":"健康档案",
-               "key":"V1001_SYSTEX"
+               "key":"health_doc"
             },
             {
                "type":"click",
                "name":"我的医生",
-               "key":"myDoctor"
+               "key":"my_doctor"
             },
             {
                "type":"click",
                "name":"我的药师",
-               "key":"V1001_huadong"
+               "key":"my_pharmacist"
             },
             {
                "type":"view",
