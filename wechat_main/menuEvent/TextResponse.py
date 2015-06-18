@@ -44,6 +44,7 @@ def msgRes(data):
     return getNews(data)
   if data.find('Content').text.encode("utf-8") == "体检":
     return getNews(data)
+  return ''
 
 def connectOrderedDKF(data, KfAccount):
   touser = data.find('ToUserName').text
