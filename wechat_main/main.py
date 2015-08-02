@@ -5,14 +5,24 @@
 
 __author__ = 'Lushen Liao'
 
+import tornado.httpserver
 import tornado.ioloop
+import tornado.options
 import tornado.web
+
 import hashlib
 import xml.etree.ElementTree as ET
 import menuEvent.ClickEvent as CE
 import menuEvent.TextResponse as TR
-import updateData.updatePicData as uPD
+from updateData import updateData
 
+from PIL import Image
+import cStringIO as StringIO
+
+import os
+
+from tornado.options import define, options
+define("port", default=8000, help="run on the given port", type=int)
 
 def checksignature(signature, timestamp, nonce):
   args = []
@@ -22,6 +32,15 @@ def checksignature(signature, timestamp, nonce):
   args.sort()
   mysig = hashlib.sha1(''.join(args)).hexdigest()
   return mysig == signature
+
+class Application(tornado.web.Application):
+  def __init__(self):
+    settings = dict (
+      handlers=[(r'/', MainHandler), (r'/image/(.*)', ImageHandler)],
+      static_path=os.path.join(os.path.dirname(__file__), "static"),
+      debug=True
+    )
+    tornado.web.Application.__init__(self, **settings)
 
 
 class MainHandler(tornado.web.RequestHandler):
@@ -48,17 +67,26 @@ class MainHandler(tornado.web.RequestHandler):
     if data.find('MsgType').text == "text":
       self.write(TR.msgRes(data))
 
-handlers = [
-	(r"/", MainHandler)
-]
-setting = dict(
-	debug=True
-)
+class ImageHandler(tornado.web.RequestHandler):
+  """get image"""
+  def get(self, *args):
+    img_id = args[0]
+    img_name = "default.JPEG"
+    for root, dirs, files in os.walk('static/images/'):
+      for file_name in files:
+        if img_id in file_name:
+          img_name = file_name
+          break
 
-application = tornado.web.Application(handlers, **setting)
+    self.write('<input type="image" src="%s" />' %
+      self.static_url("images/" + img_name))
+
+
 if __name__ == "__main__":
   #create a thread update pic datebase once a hour
-  uPD.PicUpdate(3600)
+  updateData.updateAllData()
 
-  application.listen(80)
+  tornado.options.parse_command_line()
+  HTTP_SERVER = tornado.httpserver.HTTPServer(Application())
+  HTTP_SERVER.listen(options.port)
   tornado.ioloop.IOLoop.instance().start()

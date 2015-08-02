@@ -78,7 +78,7 @@ def getMediaId(keyword):
     request = urllib2.urlopen(post_url, json.dumps(post_info))
     result = json.loads(request.read())
     while offset - post_info['offset'] < 5:
-      if keyword == result['item'][offset - post_info['offset']]['content']['news_item'][0]['title'].split('|')[0]:
+      if keyword == result['item'][offset - post_info['offset']]['content']['news_item'][0]['title'].split('|')[0].encode("utf-8"):
         res_info = {}
         res_info['media_id'] = result['item'][offset - post_info['offset']]['media_id']
         res_info['update_time'] = result['item'][offset - post_info['offset']]['update_time']
@@ -163,5 +163,5 @@ def getImageUrl(media_id):
     return coll.find_one()['url']
 
 if __name__ == "__main__":
-  print getImageUrl(123)
+  print getNewsJson(getMediaId("膳食"))['news_item'][0]['thumb_media_id']
 
