@@ -16,9 +16,6 @@ import menuEvent.clickEvent as CE
 import menuEvent.textResponse as TR
 from updateData import updateData
 
-from PIL import Image
-import cStringIO as StringIO
-
 import os
 
 from tornado.options import define, options
