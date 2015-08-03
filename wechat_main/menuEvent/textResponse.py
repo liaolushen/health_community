@@ -5,18 +5,6 @@
 
 __author__ = 'Lushen Liao'
 
-# import time
-# import sys
-# import json
-# import urllib
-# import urllib2
-# from urllib import urlencode
-# from os import sys, path
-# sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-# from initPackage.AccessToken import getAccessToken
-# import pymongo
-# from pymongo import MongoClient
-
 from connectDKF import connectDKF
 from getNews import getNews
 import xml.etree.ElementTree as ET
@@ -33,15 +21,3 @@ def msgRes(data):
     "体检", "肾病"]:
         return getNews.getNews(data)
     return ''
-
-# if __name__ == '__main__':
-#     data = """<xml>
-#              <ToUserName>hello</ToUserName>
-#              <FromUserName>hello</FromUserName> 
-#              <CreateTime>1348831860</CreateTime>
-#              <MsgType>text</MsgType>
-#              <Content>廖医生</Content>
-#              <MsgId>1234567890123456</MsgId>
-#              </xml>"""
-#     data = ET.fromstring(data)
-#     print connectDKF.connectOrderedDKF(data, '1003@health_community')
