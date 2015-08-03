@@ -12,8 +12,8 @@ import tornado.web
 
 import hashlib
 import xml.etree.ElementTree as ET
-import menuEvent.ClickEvent as CE
-import menuEvent.TextResponse as TR
+import menuEvent.clickEvent as CE
+import menuEvent.textResponse as TR
 from updateData import updateData
 
 from PIL import Image
@@ -84,7 +84,7 @@ class ImageHandler(tornado.web.RequestHandler):
 
 if __name__ == "__main__":
   #create a thread update pic datebase once a hour
-  updateData.updateAllData()
+  updateData.updateAllData(3600)
 
   tornado.options.parse_command_line()
   HTTP_SERVER = tornado.httpserver.HTTPServer(Application())

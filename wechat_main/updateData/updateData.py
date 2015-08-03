@@ -1,4 +1,6 @@
 import updatePicData
+import updateNewsData
 
-def updateAllData():
-    updatePicData.PicUpdate(3600)
+def updateAllData(delayTime):
+    updatePicData.picUpdate(delayTime)
+    updateNewsData.newsUpdate(delayTime)

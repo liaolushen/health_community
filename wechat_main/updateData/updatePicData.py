@@ -20,7 +20,7 @@ conn = MongoClient('localhost', 27017)
 db = conn["wechat_main"]
 coll = db["pic_source"]
 
-def PicUpdate(delay):
+def picUpdate(delay):
   post_url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=" + getAccessToken()
 
   def update(delay):
@@ -52,6 +52,6 @@ def dbCheck(data):
       coll.insert_one({'media_id':item['media_id'], 'url':item['url']})
 
 if __name__ == '__main__':
-  PicUpdate(5)
+  picUpdate(5)
 
   
