@@ -1,0 +1,82 @@
+* {
+	font-family: "微软雅黑";
+	color: #000;
+}
+
+html, body {
+	height: 100%;
+	width: 100%;
+}
+
+.header {
+	background-color: rgb(24,180,237);
+	width: 100%;
+	height: 30x;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 99999;
+}
+
+.header .header-center {
+	text-align: center;
+	vertical-align: 10px;
+}
+
+.header h2 {
+	font-size: 20px;
+	margin: 0;
+	line-height: 30px;
+	color: #fff;
+}
+
+.header .remove-padding {
+	padding: 0;
+	line-height: 30px;
+	text-align: center;
+}
+
+.header .remove-padding span {
+	margin-left: 2px;
+	color: #776868;
+	font-size: 12px;
+}
+
+.content {
+	width: 100%;
+	position: absolute;
+	top: 30%;
+	margin-top: -110px;
+}
+}
+
+.content .logo {
+	margin-bottom: 10px;
+}
+
+.content .logo .change-img {
+	width: 60px;
+	height: 60px;
+}
+
+.content .logo .change-word {
+	width: 100px;
+	height: 30px;
+	margin-top: 0px;
+}
+
+.content .logo .img-center {
+	text-align: center;
+}
+
+.content .description p {
+	color: rgba(0,0,0,.6);
+	padding: 0 5px;
+	padding-left: 6px;
+	text-align: center;
+}
+
+.content .item_button {
+	margin-top: 30px;
+	text-align: center;
+}

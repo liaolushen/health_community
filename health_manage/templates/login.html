@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+		<title>登陆</title>
+
+		<link rel="stylesheet" type="text/css" href="{{ static_url("css/bootstrap.min.css") }}">
+		<link rel="stylesheet" type="text/css" href="{{ static_url("css/login.css") }}">
+	</head>
+
+	<body>
+		<div class="content">
+			<div class="logo">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-4 col-xs-3"></div>
+						<div class="col-md-4 col-xs-6 img-center">
+							<img src="{{ static_url('image/logo.png') }}" alt="社区小康" class="change-img">
+							<img src="{{ static_url('image/word.png') }}" alt="社区小康" class="change-word">
+						</div>
+						<div class="col-md-4 col-xs-3"></div>
+					</div>
+				</div>
+			</div>
+			<div class="description">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-4 col-xs-1"></div>
+						<div class="col-md-4 col-xs-10">
+							<p>说明:请先登陆您的账号</p>
+						</div>
+						<div class="col-md-4 col-xs-1"></div>
+					</div>
+				</div>
+			</div>
+
+		<div class="container">
+			<form class="form-signin" action="/login" method="POST">
+				<label for="inputEmail" class="sr-only">您的邮箱</label>
+				<input type="email" id="inputEmail" class="form-control" placeholder="邮箱" name="email" required autofocus>
+				<label for="inputPassword" class="sr-only">您的密码</label>
+				<input type="password" id="inputPassword" class="form-control" name="password" placeholder="密码" required>
+				<button class="btn btn-lg btn-primary btn-block" type="submit">登陆</button>
+				<a href="/register" class="btn btn-lg btn-default btn-block" role="button">注册</a>
+				{% if warning %}
+					<div class="alert alert-danger alert-dismissible" role="alert">
+  						<strong>Warning!</strong> {{ warning }}
+					</div>
+				{% end %}
+			</form>
+		</div>
+	</body>
+</html>

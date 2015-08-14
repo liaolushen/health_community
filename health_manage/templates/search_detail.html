@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container-fluid result-detail-fix">
+	<div class="row">
+	  <div class="col-md-12 col-xs-12">
+	  	<div class="result-detail">
+	  		
+	  		<div class="detail-rows">
+	  			<span class="label">药品</span>
+	  			<span class="value">{{ detail['DrugName'] }}</span>
+	  		</div>
+
+	  		<div class="detail-rows">
+	  			<span class="label">功能</span>
+	  			<span class="value">{{ detail['Function'] }}</span>
+	  		</div>
+
+	  		<div class="detail-rows">
+	  			<span class="label">药店</span>
+	  			<span class="value">{{ len(detail["DrugStore"]) }}家</span>
+	  		</div>
+
+	  		<div class="detail-shop">
+	  			<table class="table table-striped remove-table-margin">
+				  <tr class="row">
+				  	<th class="col-md-2 col-sm-2 col-xs-3">药店</th>
+				  	<th class="col-md-5 col-sm-5 col-xs-4 shop-title">地址</th>
+				  	<th class="col-md-2 col-sm-2 col-xs-3 shop-title">电话</th>
+				  	<th class="col-md-3 col-sm-3 col-xs-2 shop-title">所属社区</th>
+				  </tr>
+				  
+				  {% for item in detail["DrugStore"] %}
+				    {% if item['BelongTo'] == locate %}
+					  <tr class="row">
+					  	<td class="col-md-2 col-sm-2 col-xs-3 shop-list">{{ item['ShopName'] }}</td>
+					  	<td class="col-md-5 col-sm-5 col-xs-4 shop-list shop-title">{{ item['Address'] }}</td>
+					  	<td class="col-md-2 col-sm-2 col-xs-3 shop-list shop-title">{{ item['Tel'] }}</td>
+					  	<td class="col-md-3 col-sm-3 col-xs-2 shop-list shop-title">{{ item['BelongTo'] }}</td>
+					  </tr>
+					{% end %}
+				  {% end %}
+				  {% for item in detail["DrugStore"] %}
+				    {% if item['BelongTo'] != locate %}
+					  <tr class="row">
+					  	<td class="col-md-2 col-sm-2 col-xs-3 shop-list">{{ item['ShopName'] }}</td>
+					  	<td class="col-md-5 col-sm-5 col-xs-4 shop-list shop-title">{{ item['Address'] }}</td>
+					  	<td class="col-md-2 col-sm-2 col-xs-3 shop-list shop-title">{{ item['Tel'] }}</td>
+					  	<td class="col-md-3 col-sm-3 col-xs-2 shop-list shop-title">{{ item['BelongTo'] }}</td>
+					  </tr>
+					{% end %}
+				  {% end %}
+
+				</table>
+	  		</div>
+
+	  	</div>
+	  </div>
+	</div>
+	</div>
+{% end %}
