@@ -37,13 +37,13 @@
 			</div>
 
 		<div class="container">
-			<form class="form-signin">
+			<form class="form-signin" action="/register" method="POST">
 				<label for="inputEmail" class="sr-only">您的邮箱</label>
-				<input type="email" id="inputEmail" class="form-control" placeholder="邮箱" required autofocus>
+				<input type="email" id="inputEmail" class="form-control" name="email" placeholder="邮箱" required autofocus>
 				<label for="inputPassword" class="sr-only">您的密码</label>
-				<input type="password" id="inputPassword" class="form-control" placeholder="密码" required>
+				<input type="password" id="inputPassword" class="form-control" name="password" placeholder="密码" required>
 				<label for="firmPassword" class="sr-only">确认密码</label>
-				<input type="password" id="firmPassword" class="form-control" placeholder="确认密码" required>
+				<input type="password" id="firmPassword" class="form-control" name="firmpassword" placeholder="确认密码" required>
 				<button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
 				<a href="/login" class="btn btn-lg btn-default btn-block" role="button">已有账号</a>
 

@@ -54,7 +54,21 @@ class LoginHandler(BaseHandler):
 
 class RegisterHandler(BaseHandler):
     def  get(self):
-        self.render('register.html')
+        self.render('register.html', warning=None)
+    def post(self):
+        email = self.get_argument("email", None)
+        password = self.get_argument("password", None)
+        firmpassword = self.get_argument("firmpassword", None)
+        if password != firmpassword:
+            self.render('register.html', warning="两次密码输入不同！")
+        else:
+            user = User()
+            result = user.addUser(email, password)
+            if result is None:
+                self.set_secure_cookie("email", self.get_argument("email"))
+                self.redirect("/")
+            else:
+                self.render('register.html', warning=result)
         
         
 
