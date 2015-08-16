@@ -17,7 +17,9 @@ class Application(tornado.web.Application):
         settings = dict (
             handlers=[(r'/', IndexHandler),
                             (r'/login', LoginHandler),
-                            (r'/register', RegisterHandler)],
+                            (r'/register', RegisterHandler),
+                            (r'/userinfo', UserInfoHandler),
+                            (r'/userrecord', UserRecordHandler)],
             # handlers=[(r'/', IndexHandler),
             #                   (r'/login', LoginHandler),
             #                   (r'/detail/(.*)/(.*)', DetailHandler)],
@@ -32,11 +34,6 @@ class Application(tornado.web.Application):
 class BaseHandler(tornado.web.RequestHandler):
         def get_current_user(self):
                 return self.get_secure_cookie("email")
-
-class IndexHandler(BaseHandler):
-    @tornado.web.authenticated
-    def get(self):
-        self.render('index.html')
 
 class LoginHandler(BaseHandler):
     def get(self):
@@ -69,6 +66,22 @@ class RegisterHandler(BaseHandler):
                 self.redirect("/")
             else:
                 self.render('register.html', warning=result)
+
+class IndexHandler(BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        self.render('index.html')
+
+class UserInfoHandler(BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        self.render('user_info.html')
+
+class UserRecordHandler(BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        self.render('clndr.html')
+        
         
         
 
