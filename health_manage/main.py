@@ -7,6 +7,8 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 
+from bson.objectid import ObjectId
+
 from user import User
 
 from tornado.options import define, options
@@ -33,7 +35,7 @@ class Application(tornado.web.Application):
 
 class BaseHandler(tornado.web.RequestHandler):
         def get_current_user(self):
-                return self.get_secure_cookie("email")
+                return self.get_secure_cookie("user_id")
 
 class LoginHandler(BaseHandler):
     def get(self):
@@ -43,8 +45,8 @@ class LoginHandler(BaseHandler):
         password = self.get_argument("password", None)
         user = User()
         result = user.verifyUser(email, password)
-        if result is None:
-            self.set_secure_cookie("email", self.get_argument("email"))
+        if isinstance(result, bson.objectid.ObjectId):
+            self.set_secure_cookie("user_id", str(result))
             self.redirect("/")
         else:
             self.render('login.html', warning=result)
@@ -61,8 +63,8 @@ class RegisterHandler(BaseHandler):
         else:
             user = User()
             result = user.addUser(email, password)
-            if result is None:
-                self.set_secure_cookie("email", self.get_argument("email"))
+            if isinstance(result, bson.objectid.ObjectId):
+                self.set_secure_cookie("user_id", str(result))
                 self.redirect("/")
             else:
                 self.render('register.html', warning=result)
@@ -75,7 +77,12 @@ class IndexHandler(BaseHandler):
 class UserInfoHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
-        self.render('user_info.html')
+        user = User()
+        user_id = self.current_user
+        self.render('user_info.html', user_info=user.getUserInfo(user_id))
+
+    def post(self):
+        user_info = {}
 
 class UserRecordHandler(BaseHandler):
     @tornado.web.authenticated
