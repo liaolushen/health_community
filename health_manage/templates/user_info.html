@@ -8,15 +8,18 @@
 
 		<link rel="stylesheet" type="text/css" href="{{ static_url('css/bootstrap.min.css') }}">
 		<link rel="stylesheet" type="text/css" href="{{ static_url('css/user_info.css') }}">
+
+		<script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+		<script type="text/javascript" src="{{ static_url('js/user_info.js') }}"></script>
 	</head>
 
 	<body>
 		<div class="content-fluid">
 			<h2>健康档案</h2>
-			<form>
+			<form id="healthForm">
   				<div class="form-group">
 					<label for="name">姓名：</label>
-					<input type="text" class="form-control" id="name" placeholder="输入你的名字" required>
+					<input type="text" class="form-control" id="name" placeholder="输入你的名字" name="name" required>
 				</div>
 				<div class="form-group">
 					<label>性别：</label>
@@ -33,72 +36,112 @@
 				</div>
 				<div class="form-group">
 					<label for="birth_date">出生日期：</label>
-					<input type="date" class="form-control" id="birth_date" required>
+					<input type="date" class="form-control" id="birth_date" name="birth_date" required>
 				</div>
 				<div class="form-group">
 					<label for="birth_locate">出生地：</label>
-					<input type="text" class="form-control" id="birth_locate" required>
+					<input type="text" class="form-control" id="birth_locate" name="birth_locate" required>
 				</div>
 				<div class="form-group">
 					<label>职业：</label>
 					<select class="form-control" name="job">
-						<option>国家机关、党群组织、企业、事业单位负责人</option>
-						<option>专业技术人员</option>
-						<option>办事人员和有关人员</option>
-						<option>商业、服务业人员</option>
-						<option>农林牧副渔、水利业生产人员</option>
-						<option>生产、运输设备操作人员及有关人员</option>
-						<option>军人</option>
-						<option>不便分类的其他从业人员</option>
-						<option>退休/离休</option>
-						<option>无业</option>
+						{% for item in [
+							"无业",
+							"国家机关、党群组织、企业、事业单位负责人",
+							"专业技术人员",
+							"办事人员和有关人员",
+							"商业、服务业人员",
+							"农林牧副渔、水利业生产人员",
+							"生产、运输设备操作人员及有关人员",
+							"军人",
+							"不便分类的其他从业人员",
+							"退休/离休"
+						] %}
+							{% if item == "军人" %}
+								<option value={{ item }} selected>{{ item }}</option>
+							{% else %}
+								<option value={{ item }}>{{ item }}</option>
+							{% end %}
+				    		{% end %}
 					</select>
 				</div>
 				<div class="form-group">
 					<label>文化程度：</label>
 					<select class="form-control" name="education">
-						<option>文盲及半文盲</option>
-						<option>小学</option>
-						<option>初中</option>
-						<option>高中/技校/中专</option>
-						<option>大学专科及以上</option>
-						<option>不详</option>
+						{% for item in [
+							"不详"
+							"文盲及半文盲",
+							"小学",
+							"初中",
+							"高中/技校/中专",
+							"大学专科及以上"
+						] %}
+							{% if item == "不详" %}
+								<option value={{ item }} selected>{{ item }}</option>
+							{% else %}
+								<option value={{ item }}>{{ item }}</option>
+							{% end %}
+				    		{% end %}
 					</select>
 				</div>
 				<div class="form-group">
 					<label>血型：</label>
 					<select class="form-control" name="blood">
-						<option>A型</option>
-						<option>B型</option>
-						<option>O型</option>
-						<option>AB型</option>
-						<option>不详</option>
+						{% for item in [
+							"不详",
+							"A型",
+							"B型",
+							"O型",
+							"AB型"
+						] %}
+							{% if item == "不详" %}
+								<option value={{ item }} selected>{{ item }}</option>
+							{% else %}
+								<option value={{ item }}>{{ item }}</option>
+							{% end %}
+				    		{% end %}
 					</select>
 				</div>
 				<div class="form-group">
 					<label>RH阴性：</label>
 					<select class="form-control" name="RH">
-						<option>是</option>
-						<option>否</option>
-						<option>不详</option>
+						{% for item in [
+							"不详",
+							"是",
+							"否"
+						] %}
+							{% if item == "不详" %}
+								<option value={{ item }} selected>{{ item }}</option>
+							{% else %}
+								<option value={{ item }}>{{ item }}</option>
+							{% end %}
+				    		{% end %}
 					</select>
 				</div>
 				<div class="form-group">
 					<label>婚姻状况：</label>
 					<select class="form-control" name="marry">
-						<option>已婚</option>
-						<option>未婚</option>
-						<option>丧偶</option>
-						<option>离婚</option>
-						<option>未说明的婚姻状况</option>
+						{% for item in [
+							"未说明的婚姻状况",
+							"已婚",
+							"未婚",
+							"离婚",
+							"丧偶"
+						] %}
+							{% if item == "不详" %}
+								<option value={{ item }} selected>{{ item }}</option>
+							{% else %}
+								<option value={{ item }}>{{ item }}</option>
+							{% end %}
+				    		{% end %}
 					</select>
 				</div>
 				<div class="form-group">
 					<label for="history">既往史&家族史：</label>
-					<textarea class="form-control" rows="3" id="history"></textarea>
+					<textarea class="form-control" rows="3" id="history" name="history"></textarea>
 				</div>
 				<button type="button" class="btn btn-primary">编辑</button>
-				<button type="button" class="btn btn-primary">保存</button>
+				<button type="button" class="btn btn-primary" onclick="store()">保存</button>
 				<button type="button" class="btn btn-primary">生成图片</button>
 			</form>
 		</div>

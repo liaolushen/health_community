@@ -25,7 +25,7 @@ class User(object):
             password
 
         Return:
-            If verify secussed, return the id of user, the type of id is bson.objectid.ObjectId.
+            If verify successed, return the id of user, the type of id is bson.objectid.ObjectId.
             Else if failed, return the fail reason
         """
         coll = self.db.user
@@ -45,7 +45,7 @@ class User(object):
             password
 
         Return:
-            If add secussed, return the id of user, the type of id is bson.objectid.ObjectId.
+            If add successed, return the id of user, the type of id is bson.objectid.ObjectId.
             Else if failed, return the fail reason
         """
         if email != None or password != None:
@@ -70,6 +70,24 @@ class User(object):
         coll = self.db.user
         return coll.find_one({"_id":ObjectId(user_id)})["info"]
 
+    def updateUserInfo(self, user_id, user_info):
+        """
+        Args:
+            user_id
+            user_info: a dict content user's info
+
+        Return:
+            return a string discribe if successed
+        """
+        coll = self.db.user
+        result = coll.update_one({"_id":ObjectId(user_id)}, {'$set': {'info': user_info}})
+        if result.matched_count > 0:
+            return "保存成功"
+        else:
+            return "保存失败"
+
 if __name__ == '__main__':
     user = User()
-    print isinstance(user.verifyUser("admin@admin.com", "admin"), ObjectId)
+    test = {}
+    test['name'] = "test"
+    user.updateUserInfo("55ce8475f965b50a21c2e3cd", test)

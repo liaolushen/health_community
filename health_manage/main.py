@@ -83,6 +83,14 @@ class UserInfoHandler(BaseHandler):
 
     def post(self):
         user_info = {}
+        arg_list = ["name", "sex", "birth_date", "birth_locate",
+        "job", "education", "blood", "RH", "marry", "history"]
+        for arg in arg_list:
+            user_info[arg] = self.get_argument(arg, None)
+        user = User()
+        user_id = self.current_user
+        result = user.updateUserInfo(user_id, user_info)
+        self.write(result)
 
 class UserRecordHandler(BaseHandler):
     @tornado.web.authenticated
