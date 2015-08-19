@@ -10,6 +10,10 @@ import tornado.web
 from bson.objectid import ObjectId
 
 from user import User
+from img_create import createImg
+
+from PIL import Image
+import cStringIO as StringIO
 
 from tornado.options import define, options
 define("port", default=8100, help="run on the given port", type=int)
@@ -21,10 +25,8 @@ class Application(tornado.web.Application):
                             (r'/login', LoginHandler),
                             (r'/register', RegisterHandler),
                             (r'/userinfo', UserInfoHandler),
-                            (r'/userrecord', UserRecordHandler)],
-            # handlers=[(r'/', IndexHandler),
-            #                   (r'/login', LoginHandler),
-            #                   (r'/detail/(.*)/(.*)', DetailHandler)],
+                            (r'/userrecord', UserRecordHandler),
+                            (r'/userimg', ImageHandler)],
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
             cookie_secret="bZJc2sWbQLKos6GkHn/VB9oXwQt8S0R0kRvJ5/xJ89E=",
@@ -45,7 +47,7 @@ class LoginHandler(BaseHandler):
         password = self.get_argument("password", None)
         user = User()
         result = user.verifyUser(email, password)
-        if isinstance(result, bson.objectid.ObjectId):
+        if isinstance(result, ObjectId):
             self.set_secure_cookie("user_id", str(result))
             self.redirect("/")
         else:
@@ -63,7 +65,7 @@ class RegisterHandler(BaseHandler):
         else:
             user = User()
             result = user.addUser(email, password)
-            if isinstance(result, bson.objectid.ObjectId):
+            if isinstance(result, ObjectId):
                 self.set_secure_cookie("user_id", str(result))
                 self.redirect("/")
             else:
@@ -96,7 +98,18 @@ class UserRecordHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
         self.render('clndr.html')
-        
+
+class ImageHandler(BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        user = User()
+        user_info = user.getUserInfo(self.current_user)
+        fimg = createImg(user_info)
+        fobj = StringIO.StringIO()
+        fimg.save(fobj, format="png")
+        for line in fobj.getvalue():
+            self.write(line)
+        self.set_header("Content-type",  "image/png")
         
         
 

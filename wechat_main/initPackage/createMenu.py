@@ -55,9 +55,9 @@ menu = '''{
            "name":"健康管理",
            "sub_button":
            [{
-               "type":"click",
+               "type":"view",
                "name":"健康档案",
-               "key":"health_doc"
+               "url":"http://45.63.123.71:8100/"
             },
             {
                "type":"click",

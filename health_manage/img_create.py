@@ -6,11 +6,29 @@ import Image
 import ImageDraw
 import ImageFont
 
-fonts_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static/fonts')
-mask_img_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static/image')
+fonts_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static/fonts')
+mask_img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static/image')
 width, height = 500, 500
 
-def createImg(user_email, record):
+user_map = [{'name':'姓名'},
+                    {'sex':'性别'},
+                    {'birth_date':'出生日期'},
+                    {'birth_locate':'出生地'},
+                    {'job':'职业'},
+                    {'education':'文化程度'},
+                    {'blood':'血型'},
+                    {'RH':'RH阴性'}, 
+                    {'marry':'婚姻状况'},
+                    {'history':'既往史&家族史'}]
+
+def createImg(user_info):
+    """
+        Args:
+            user_info
+
+        Return:
+            a Image object
+        """
     im = Image.new('RGB', (width, height), 0XFFFFFF)
     draw = ImageDraw.Draw(im)
 
@@ -45,27 +63,9 @@ def createImg(user_email, record):
     draw.text((250, 55),unicode('内容','utf-8'), fill=headcolor, font=headfont)
 
     for x in xrange(0, 10):
-        draw.text((25, 90+x*30),unicode(record[x].keys()[0],'utf-8'), fill=itemcolor, font=itemfont)
-        draw.text((255, 90+x*30),unicode(record[x].values()[0],'utf-8'), fill=itemcolor, font=itemfont)
+        draw.text((25, 90+x*30),unicode(user_map[x].values()[0],'utf-8'), fill=itemcolor, font=itemfont)
+        draw.text((255, 90+x*30),user_info[user_map[x].keys()[0]], fill=itemcolor, font=itemfont)
 
     mask_im = Image.open(os.path.join(mask_img_path, 'mask.jpg'))
     im = Image.blend(im, mask_im, 0.2)
-    user_name = user_email.split('@')[0]
-    filename = 'user_img/' + user_name + '.jpg'
-    im.save(filename)
-
-if __name__ == '__main__':
-
-    record = [
-        {'姓名':'二傻'},
-        {'性别':'男'},
-        {'出生日期':'2016/4/1'},
-        {'出生地':'广州'},
-        {'职业':'无业'},
-        {'文化程度':'文盲及半文盲'},
-        {'血型':'A型'},
-        {'RH阴性':'是'},
-        {'婚姻状况':'已婚'},
-        {'既往史&家族史':'无'}]
-    createImg("admin@admin.com", record)
-
+    return im
