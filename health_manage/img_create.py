@@ -21,7 +21,7 @@ user_map = [{'name':'姓名'},
                     {'marry':'婚姻状况'},
                     {'history':'既往史&家族史'}]
 
-def createImg(user_info):
+def create(user_info):
     """
         Args:
             user_info

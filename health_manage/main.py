@@ -9,8 +9,8 @@ import tornado.web
 
 from bson.objectid import ObjectId
 
-from user import User
-from img_create import createImg
+from User import User
+from img_create import create
 
 from PIL import Image
 import cStringIO as StringIO
@@ -46,7 +46,7 @@ class LoginHandler(BaseHandler):
         email = self.get_argument("email", None)
         password = self.get_argument("password", None)
         user = User()
-        result = user.verifyUser(email, password)
+        result = user.verify_user(email, password)
         if isinstance(result, ObjectId):
             self.set_secure_cookie("user_id", str(result))
             self.redirect("/")
@@ -54,7 +54,7 @@ class LoginHandler(BaseHandler):
             self.render('login.html', warning=result)
 
 class RegisterHandler(BaseHandler):
-    def  get(self):
+    def get(self):
         self.render('register.html', warning=None)
     def post(self):
         email = self.get_argument("email", None)
@@ -64,7 +64,7 @@ class RegisterHandler(BaseHandler):
             self.render('register.html', warning="两次密码输入不同！")
         else:
             user = User()
-            result = user.addUser(email, password)
+            result = user.create_user(email, password)
             if isinstance(result, ObjectId):
                 self.set_secure_cookie("user_id", str(result))
                 self.redirect("/")
@@ -81,17 +81,17 @@ class UserInfoHandler(BaseHandler):
     def get(self):
         user = User()
         user_id = self.current_user
-        self.render('user_info.html', user_info=user.getUserInfo(user_id))
+        self.render('user_info.html', user_info=user.get_user_info(user_id))
 
     def post(self):
         user_info = {}
         arg_list = ["name", "sex", "birth_date", "birth_locate",
         "job", "education", "blood", "RH", "marry", "history"]
         for arg in arg_list:
-            user_info[arg] = self.get_argument(arg, None)
+            user_info[arg] = self.get_argument(arg, "")
         user = User()
         user_id = self.current_user
-        result = user.updateUserInfo(user_id, user_info)
+        result = user.update_user_info(user_id, user_info)
         self.write(result)
 
 class UserRecordHandler(BaseHandler):
@@ -99,12 +99,25 @@ class UserRecordHandler(BaseHandler):
     def get(self):
         self.render('clndr.html')
 
+    def post(self):
+        user_id = self.current_user
+        user = User()
+        if self.get_argument("info") == "get_user_record":
+            year = self.get_argument("year")
+            month =self.get_argument("month")
+            self.write("year = " + year + " and month = " + month)
+            # user.get_user_record(user_id, year, month)
+        if self.get_argument("info") == "update_user_record":
+            weight = self.get_argument("weight")
+            self.write("your weight is " + weight + "kg")
+            # user.update_user_record(user_id, xxxx)
+
 class ImageHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
         user = User()
-        user_info = user.getUserInfo(self.current_user)
-        fimg = createImg(user_info)
+        user_info = user.get_user_info(self.current_user)
+        fimg = create(user_info)
         fobj = StringIO.StringIO()
         fimg.save(fobj, format="png")
         for line in fobj.getvalue():

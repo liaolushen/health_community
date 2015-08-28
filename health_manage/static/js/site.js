@@ -41,6 +41,8 @@ $(document).ready( function() {
       },
       onMonthChange: function() {
         console.log('month changed.');
+        initPage();
+        initData();
       },
       nextYear: function() {
         console.log('next year.');

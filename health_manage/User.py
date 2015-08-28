@@ -7,18 +7,18 @@ from bson.objectid import ObjectId
 
 import hashlib
 
-def md5(str):
-    m = hashlib.md5()   
-    m.update(str)
-    return m.hexdigest()
-
 class User(object):
     """docstring for User"""
     def __init__(self):
         conn = MongoClient('localhost', 27017)
         self.db = conn["health_manage"]
 
-    def verifyUser(self, email, password):
+    def __md5(self, str):
+        m = hashlib.md5()   
+        m.update(str)
+        return m.hexdigest()
+
+    def verify_user(self, email, password):
         """
         Args:
             email
@@ -31,14 +31,14 @@ class User(object):
         coll = self.db.user
         detail = coll.find_one({"email":email})
         if detail:
-            if detail["password"] == md5(password):
+            if detail["password"] == self.__md5(password):
                 return detail["_id"]
             else:
                 return "密码错误！"
         else:
             return "用户名不存在！"
 
-    def addUser(self, email,password):
+    def create_user(self, email, password):
         """
         Args:
             email
@@ -53,13 +53,13 @@ class User(object):
             if coll.find_one({"email":email}):
                 return "用户名已存在！"
             else:
-                new_user = {"email":email, "password":md5(password), "info":[]}
+                new_user = {"email":email, "password":self.__md5(password), "info":[]}
                 result = coll.insert_one(new_user)
                 return result.insert_id
         else:
             return "输入有问题！"
 
-    def getUserInfo(self, user_id):
+    def get_user_info(self, user_id):
         """
         Args:
             user_id
@@ -70,7 +70,7 @@ class User(object):
         coll = self.db.user
         return coll.find_one({"_id":ObjectId(user_id)})["info"]
 
-    def updateUserInfo(self, user_id, user_info):
+    def update_user_info(self, user_id, user_info):
         """
         Args:
             user_id
@@ -85,6 +85,9 @@ class User(object):
             return "保存成功"
         else:
             return "保存失败"
+
+    def get_user_record(self, user_id, user_info):
+        pass
 
 if __name__ == '__main__':
     user = User()
