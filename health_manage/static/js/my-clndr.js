@@ -20,14 +20,22 @@ function initPage() {
 }
 
 function initData() {
-    $(".today").append('<div class="my-date">50.4kg</div>');
-    $("#inputData").val(50.4);
-    var postData = getMonthAndYearOfCurrentPage();
+    var postData = getYearAndMonthOfCurrentPage();
     $.post("/userrecord?info=get_user_record", postData, function(data) {
-        alert(data);
+        inputData(data);
+        console.log(data);
     })
 }
 
+
+// 将取到的数据放入页面中
+function inputData(data) {
+    $.each(data, function(key, value) {
+        var yearAndMonth = getYearAndMonthOfCurrentPage()
+        var className = ".calendar-day-" + yearAndMonth['year'] + "-" + yearAndMonth['month'] + '-' + key;
+        $(className).append('<div class="my-date">' + value['weight'] + 'kg</div>');
+    })
+}
 
 // 自动调节模态框的大小
 function adjustModalMaxHeightAndPosition(){
@@ -67,12 +75,20 @@ function adjustModalMaxHeightAndPosition(){
 
 // 传入今日的体重值
 function changeData() {
-    var data = $("#inputData").val()
-    if (checkData(data)) {
+    var weightData = $("#inputData").val()
+    if (checkData(weightData)) {
         $('#myModal').modal('hide');
         $('#helpBlock').removeClass('warning');
-        var postData = {"weight" : data};
+        var yearAndMonth = getYearAndMonthOfCurrentPage();
+        var day = $($(".today .day-contents")[0]).text();
+        var postData = {};
+        postData["weight"] = weightData;
+        postData["year"] = yearAndMonth["year"];
+        postData["month"] = yearAndMonth["month"];
+        postData["day"] = day;
         $.post("/userrecord?info=update_user_record", postData, function(data) {
+            $(".today .my-date").remove();
+            $(".today").append('<div class="my-date">' + weightData + 'kg</div>');
             alert(data);
         })
     } else {
@@ -86,11 +102,10 @@ function checkData(data) {
     return reg.test(data);
 }
 
-// 得到当前页面的年份和月份，返回json格式：{"year":xxxx, "month":xxxx}
-function getMonthAndYearOfCurrentPage() {
+// 得到当前页面的年份和月份，返回json格式：{"year":xxxx, "month":xx, "date":xx}
+function getYearAndMonthOfCurrentPage() {
     var classValue = $($("tbody > tr > td")[6]).attr("class");
     var currentPageDate = new String(classValue.match("[0-9]{4}-[0-9]{2}"));
-    var year = currentPageDate.split('-')[0];
-    var month = currentPageDate.split('-')[1];
-    return {"year":year, "month":month};
+    date = currentPageDate.split('-');
+    return {"year":date[0], "month":date[1]};
 }

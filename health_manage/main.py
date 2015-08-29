@@ -36,8 +36,8 @@ class Application(tornado.web.Application):
         tornado.web.Application.__init__(self, **settings)
 
 class BaseHandler(tornado.web.RequestHandler):
-        def get_current_user(self):
-                return self.get_secure_cookie("user_id")
+    def get_current_user(self):
+        return self.get_secure_cookie("user_id")
 
 class LoginHandler(BaseHandler):
     def get(self):
@@ -81,14 +81,13 @@ class UserInfoHandler(BaseHandler):
     def get(self):
         user = User()
         user_id = self.current_user
-        self.render('user_info.html', user_info=user.get_user_info(user_id))
+        self.render('user_info.html', user_info = user.get_user_info(user_id))
 
     def post(self):
         user_info = {}
-        arg_list = ["name", "sex", "birth_date", "birth_locate",
-        "job", "education", "blood", "RH", "marry", "history"]
-        for arg in arg_list:
-            user_info[arg] = self.get_argument(arg, "")
+        user = User()
+        for attr in user.attr_list:
+            user_info[attr] = self.get_argument(attr, "")
         user = User()
         user_id = self.current_user
         result = user.update_user_info(user_id, user_info)
@@ -105,12 +104,18 @@ class UserRecordHandler(BaseHandler):
         if self.get_argument("info") == "get_user_record":
             year = self.get_argument("year")
             month =self.get_argument("month")
-            self.write("year = " + year + " and month = " + month)
-            # user.get_user_record(user_id, year, month)
+            result = user.get_user_record(user_id, year, month)
+            self.set_header("Content-Type", "application/json")
+            self.write(result)
+
         if self.get_argument("info") == "update_user_record":
             weight = self.get_argument("weight")
-            self.write("your weight is " + weight + "kg")
-            # user.update_user_record(user_id, xxxx)
+            date={}
+            date["year"] = self.get_argument("year")
+            date["month"] = self.get_argument("month")
+            date["day"] = self.get_argument("day")
+            result = user.update_user_record(user_id, "weight", weight, date)
+            self.write(result)
 
 class ImageHandler(BaseHandler):
     @tornado.web.authenticated

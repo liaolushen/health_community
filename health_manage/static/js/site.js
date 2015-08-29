@@ -25,7 +25,6 @@ $(document).ready( function() {
   calendars.clndr1 = $('.cal1').clndr({
     clickEvents: {
       click: function(target) {
-        console.log(target);
         // if you turn the `constraints` option on, try this out:
         // if($(target.element).hasClass('inactive')) {
         //   console.log('not a valid datepicker date.');

@@ -149,6 +149,7 @@ body, .cal1 {
 .my-date {
   text-align: center;
   color: red;
+  font-size: 8pt;
 }
 
 .container {
@@ -157,4 +158,8 @@ body, .cal1 {
 
 .warning {
   color: red;
+}
+
+.bottom-choice {
+  width: 100%;
 }

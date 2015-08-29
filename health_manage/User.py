@@ -6,12 +6,14 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 
 import hashlib
+import json
 
 class User(object):
     """docstring for User"""
     def __init__(self):
         conn = MongoClient('localhost', 27017)
         self.db = conn["health_manage"]
+        self.attr_list = ["name", "sex", "birth_date", "birth_locate", "job", "education", "blood", "RH", "marry", "history"]
 
     def __md5(self, str):
         m = hashlib.md5()   
@@ -53,9 +55,8 @@ class User(object):
             if coll.find_one({"email":email}):
                 return "用户名已存在！"
             else:
-                new_user = {"email":email, "password":self.__md5(password), "info":[]}
-                result = coll.insert_one(new_user)
-                return result.insert_id
+                new_user = {"email":email, "password":self.__md5(password), "info":{}, "record":{}}
+                return coll.insert_one(new_user).inserted_id
         else:
             return "输入有问题！"
 
@@ -65,10 +66,14 @@ class User(object):
             user_id
 
         Return:
-            return a list of user info
+            return an object of user info
         """
         coll = self.db.user
-        return coll.find_one({"_id":ObjectId(user_id)})["info"]
+        user_info = coll.find_one({"_id":ObjectId(user_id)})["info"]
+        for attr in self.attr_list:
+            if attr not in user_info.keys():
+                user_info[attr] = ""
+        return user_info
 
     def update_user_info(self, user_id, user_info):
         """
@@ -86,8 +91,54 @@ class User(object):
         else:
             return "保存失败"
 
-    def get_user_record(self, user_id, user_info):
-        pass
+    def get_user_record(self, user_id, year, month):
+        """
+        Args:
+            user_id
+            year:
+            month:
+
+        Return:
+            return an json content the result
+        """
+        coll = self.db.user
+        key = "record."+year+"."+month
+        result =  coll.find_one({"_id": ObjectId(user_id), key: { '$exists': True } })
+        if result is not None:
+            result = result["record"][year][month]
+        return json.dumps(result)
+
+    def update_user_record(self, user_id, record_key, record_value, date):
+        """
+        Args:
+            user_id
+            record_key : the key of value you want to update
+            record_value : the value you want to update
+            date : the record date, the format is {"year":xxxx, "month":xx, "day":xx}
+
+        Return:
+            return a string discribe if successed
+        """
+        coll = self.db.user
+        key = 'record.{year}.{month}.{day}.{record_key}'.format(
+            year=date["year"],
+            month=date["month"],
+            day=date["day"],
+            record_key=record_key)
+        result = coll.update_one(
+            {'_id':ObjectId(user_id)},
+            {
+                '$set':
+                {
+                    key:record_value
+                } 
+            },
+            True)
+        if result.modified_count > 0:
+            return "修改成功"
+        else:
+            return "无需修改"
+
 
 if __name__ == '__main__':
     user = User()
