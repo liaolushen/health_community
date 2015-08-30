@@ -37,7 +37,13 @@ class Application(tornado.web.Application):
 
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
-        return self.get_secure_cookie("user_id")
+        user = User()
+        user_id = self.get_secure_cookie("user_id")
+        if user.verify_user_id(user_id):
+            return user_id
+        else:
+            self.clear_cookie("user_id")
+            return None
 
 class LoginHandler(BaseHandler):
     def get(self):

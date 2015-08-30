@@ -40,6 +40,22 @@ class User(object):
         else:
             return "用户名不存在！"
 
+    def verify_user_id(self, user_id):
+        """
+        Args:
+            user_id
+
+        Return:
+            if user_id is exist, return True
+            else return False
+        """
+        coll = self.db.user
+        result = coll.find_one({"_id":ObjectId(user_id)})
+        if result:
+            return True
+        else:
+            return False
+
     def create_user(self, email, password):
         """
         Args:
