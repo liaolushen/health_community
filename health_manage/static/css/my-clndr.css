@@ -175,8 +175,13 @@ body, .cal1 {
 
 .nav-pills>li>a {
   border-radius: 0;
+  margin-bottom: 0px;
 }
 
-.nav-justified>li>a {
-    margin-bottom: 0px;
+.nav-pills>li>a:visited {
+  color: #337ab7
+}
+
+.nav-pills .active>a:visited {
+  color: #eee
 }
