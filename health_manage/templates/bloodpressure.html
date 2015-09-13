@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta charset="UTF-8">
+  <title>血压记录</title>
+  <link rel="stylesheet" type="text/css" href="{{ static_url('css/bootstrap.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ static_url('css/clndr.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ static_url('css/my-clndr.css') }}">
+
+  <script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="{{ static_url('js/bootstrap.min.js') }}"></script>
+</head>
+<body>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">今日血压</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form">
+            <div class="form-group">
+              <div class="input-group">
+                <input type="text" class="form-control" id="inputData" placeholder="你的血压">
+                <div class="input-group-addon">mmHg</div>
+              </div>
+              <span id="helpBlock" class="help-block">请输入数字并保留一位小数</span>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" onclick="changeData()">确认</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="my-container">
+    <div class="cal1">
+    </div>
+  </div>
+
+  <script src="{{ static_url('js/json2.js')}}"></script>
+  <script src="http://cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js"></script>
+  <script src= "{{ static_url('js/moment-2.8.3.js')}}"></script>
+
+  <script src="{{ static_url('js/clndr.js')}}"></script>
+  <script src="{{ static_url('js/site.js')}}"></script>
+
+  <script src="{{ static_url('js/my-clndr.js')}}"></script>
+  <script src="{{ static_url('js/bloodpressure.js')}}"></script>
+
+  <nav class="navbar navbar-default navbar-fixed-bottom">
+      <ul class="nav nav-pills nav-justified">
+          <li role="presentation"><a href="/userrecord/weight">体重</a></li>
+          <li role="presentation" class="active"><a href="/userrecord/bloodpressure">血压</a></li>
+          <li role="presentation"><a href="/userrecord/bloodlipid">血脂</a></li>
+          <li role="presentation"><a href="/userrecord/bloodglucose">血糖</a></li>
+      </ul>
+  </nav>
+
+
+</body>
+</html>

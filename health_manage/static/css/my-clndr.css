@@ -163,3 +163,20 @@ body, .cal1 {
 .bottom-choice {
   width: 100%;
 }
+
+.nav-justified > li {
+    display: table-cell; 
+    width: 1%
+}
+
+.navbar {
+  min-height: 0
+}
+
+.nav-pills>li>a {
+  border-radius: 0;
+}
+
+.nav-justified>li>a {
+    margin-bottom: 0px;
+}

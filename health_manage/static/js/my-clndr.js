@@ -1,6 +1,5 @@
 $(document).ready(function(){
     initPage();
-    initData();
 });
 
 // 页面的初始化
@@ -19,23 +18,6 @@ function initPage() {
     }
 }
 
-function initData() {
-    var postData = getYearAndMonthOfCurrentPage();
-    $.post("/userrecord?info=get_user_record", postData, function(data) {
-        inputData(data);
-        console.log(data);
-    })
-}
-
-
-// 将取到的数据放入页面中
-function inputData(data) {
-    $.each(data, function(key, value) {
-        var yearAndMonth = getYearAndMonthOfCurrentPage()
-        var className = ".calendar-day-" + yearAndMonth['year'] + "-" + yearAndMonth['month'] + '-' + key;
-        $(className).append('<div class="my-date">' + value['weight'] + 'kg</div>');
-    })
-}
 
 // 自动调节模态框的大小
 function adjustModalMaxHeightAndPosition(){
@@ -72,29 +54,6 @@ function adjustModalMaxHeightAndPosition(){
         };
     });
 };
-
-// 传入今日的体重值
-function changeData() {
-    var weightData = $("#inputData").val()
-    if (checkData(weightData)) {
-        $('#myModal').modal('hide');
-        $('#helpBlock').removeClass('warning');
-        var yearAndMonth = getYearAndMonthOfCurrentPage();
-        var day = $($(".today .day-contents")[0]).text();
-        var postData = {};
-        postData["weight"] = weightData;
-        postData["year"] = yearAndMonth["year"];
-        postData["month"] = yearAndMonth["month"];
-        postData["day"] = day;
-        $.post("/userrecord?info=update_user_record", postData, function(data) {
-            $(".today .my-date").remove();
-            $(".today").append('<div class="my-date">' + weightData + 'kg</div>');
-            alert(data);
-        })
-    } else {
-        $('#helpBlock').addClass('warning');
-    }
-}
 
 // 验证数据格式是否正确
 function checkData(data) {

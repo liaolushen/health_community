@@ -1,0 +1,6 @@
+# ignore these file:
+*~
+*.py[cod]
+*.so
+*.egg
+*.egg-info

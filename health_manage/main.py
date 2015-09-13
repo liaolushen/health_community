@@ -25,7 +25,7 @@ class Application(tornado.web.Application):
                             (r'/login', LoginHandler),
                             (r'/register', RegisterHandler),
                             (r'/userinfo', UserInfoHandler),
-                            (r'/userrecord', UserRecordHandler),
+                            (r'/userrecord/(.*)', UserRecordHandler),
                             (r'/userimg', ImageHandler)],
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
@@ -101,26 +101,48 @@ class UserInfoHandler(BaseHandler):
 
 class UserRecordHandler(BaseHandler):
     @tornado.web.authenticated
-    def get(self):
-        self.render('clndr.html')
+    def get(self, *args):
+        if args[0] == 'weight':
+            self.render('weight.html')
+        elif args[0] == 'bloodpressure':
+            self.render('bloodpressure.html')
+        elif args[0] == 'bloodglucose':
+            self.render('bloodglucose.html')
+        elif args[0] == 'bloodlipid':
+            self.render('bloodlipid.html')
+        else:
+            self.redirect('/')
 
-    def post(self):
+    def post(self, *args):
         user_id = self.current_user
         user = User()
-        if self.get_argument("info") == "get_user_record":
+        if args[0] == "get_user_record":
             year = self.get_argument("year")
             month =self.get_argument("month")
             result = user.get_user_record(user_id, year, month)
             self.set_header("Content-Type", "application/json")
             self.write(result)
+            return
 
-        if self.get_argument("info") == "update_user_record":
-            weight = self.get_argument("weight")
-            date={}
-            date["year"] = self.get_argument("year")
-            date["month"] = self.get_argument("month")
-            date["day"] = self.get_argument("day")
-            result = user.update_user_record(user_id, "weight", weight, date)
+        date={}
+        date["year"] = self.get_argument("year")
+        date["month"] = self.get_argument("month")
+        date["day"] = self.get_argument("day")
+
+        if args[0] == "update_weight":
+            result = user.update_user_record(user_id, "weight", self.get_argument("weight"), date)
+            self.write(result)
+
+        if args[0] == "update_bloodpressure":
+            result = user.update_user_record(user_id, "bloodpressure", self.get_argument("bloodpressure"), date)
+            self.write(result)
+
+        if args[0] == "update_bloodglucose":
+            result = user.update_user_record(user_id, "bloodglucose", self.get_argument("bloodglucose"), date)
+            self.write(result)
+
+        if args[0] == "update_bloodlipid":
+            result = user.update_user_record(user_id, "bloodlipid", self.get_argument("bloodlipid"), date)
             self.write(result)
 
 class ImageHandler(BaseHandler):
