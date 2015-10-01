@@ -136,6 +136,8 @@ class User(object):
             return a string discribe if successed
         """
         coll = self.db.user
+        if len(date["day"]) < 2:
+            date["day"] = "0" + date["day"];
         key = 'record.{year}.{month}.{day}.{record_key}'.format(
             year=date["year"],
             month=date["month"],
