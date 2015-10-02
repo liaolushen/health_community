@@ -44,8 +44,9 @@
 				<input type="password" id="inputPassword" class="form-control" name="password" placeholder="密码" required>
 				<label for="firmPassword" class="sr-only">确认密码</label>
 				<input type="password" id="firmPassword" class="form-control" name="firmpassword" placeholder="确认密码" required>
+				<input type="hidden" name="next" value= {{ next }} >
 				<button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
-				<a href="/login" class="btn btn-lg btn-default btn-block" role="button">已有账号</a>
+				<a href="/login?next={{ next.replace('/', '%2F') }}" class="btn btn-lg btn-default btn-block" role="button">已有账号</a>
 
 				{% if warning %}
 					<div class="alert alert-danger alert-dismissible" role="alert">

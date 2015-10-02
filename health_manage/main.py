@@ -26,7 +26,8 @@ class Application(tornado.web.Application):
                             (r'/register', RegisterHandler),
                             (r'/userinfo', UserInfoHandler),
                             (r'/userrecord/(.*)', UserRecordHandler),
-                            (r'/userimg', ImageHandler)],
+                            (r'/userimg', ImageHandler),
+                            (r'/doctor/(.*)', DoctorHandler)],
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
             cookie_secret="bZJc2sWbQLKos6GkHn/VB9oXwQt8S0R0kRvJ5/xJ89E=",
@@ -47,24 +48,28 @@ class BaseHandler(tornado.web.RequestHandler):
 
 class LoginHandler(BaseHandler):
     def get(self):
-        self.render('login.html', warning=None)
+        next_page = self.get_argument("next", "/")
+        self.render('login.html', next=next_page, warning=None)
     def post(self):
         email = self.get_argument("email", None)
         password = self.get_argument("password", None)
+        next_page = self.get_argument("next", "/")
         user = User()
         result = user.verify_user(email, password)
         if isinstance(result, ObjectId):
             self.set_secure_cookie("user_id", str(result))
-            self.redirect("/")
+            self.redirect(next_page)
         else:
-            self.render('login.html', warning=result)
+            self.render('login.html', next=next_page, warning=result)
 
 class RegisterHandler(BaseHandler):
     def get(self):
-        self.render('register.html', warning=None)
+        next_page = self.get_argument("next", "/")
+        self.render('register.html', next=next_page, warning=None)
     def post(self):
         email = self.get_argument("email", None)
         password = self.get_argument("password", None)
+        next_page = self.get_argument("next", "/")
         firmpassword = self.get_argument("firmpassword", None)
         if password != firmpassword:
             self.render('register.html', warning="两次密码输入不同！")
@@ -73,9 +78,9 @@ class RegisterHandler(BaseHandler):
             result = user.create_user(email, password)
             if isinstance(result, ObjectId):
                 self.set_secure_cookie("user_id", str(result))
-                self.redirect("/")
+                self.redirect(next_page)
             else:
-                self.render('register.html', warning=result)
+                self.render('register.html', next=next_page, warning=result)
 
 class IndexHandler(BaseHandler):
     @tornado.web.authenticated
@@ -87,7 +92,7 @@ class UserInfoHandler(BaseHandler):
     def get(self):
         user = User()
         user_id = self.current_user
-        self.render('user_info.html', user_info = user.get_user_info(user_id))
+        self.render('user-info.html', user_info = user.get_user_info(user_id))
 
     def post(self):
         user_info = {}
@@ -157,7 +162,13 @@ class ImageHandler(BaseHandler):
             self.write(line)
         self.set_header("Content-type",  "image/png")
         
-        
+class DoctorHandler(BaseHandler):
+    @tornado.web.authenticated
+    def get(self, *args):
+        if args[0] == '':
+            self.render('doctor/index.html')
+        else:
+            self.write('<h1>功能正在开发，请耐心等待</h1>')
 
 if __name__ == '__main__':
     tornado.options.parse_command_line()

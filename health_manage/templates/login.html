@@ -42,8 +42,9 @@
 				<input type="email" id="inputEmail" class="form-control" placeholder="邮箱" name="email" required autofocus>
 				<label for="inputPassword" class="sr-only">您的密码</label>
 				<input type="password" id="inputPassword" class="form-control" name="password" placeholder="密码" required>
+				<input type="hidden" name="next" value= {{ next }} >
 				<button class="btn btn-lg btn-primary btn-block" type="submit">登陆</button>
-				<a href="/register" class="btn btn-lg btn-default btn-block" role="button">注册</a>
+				<a href="/register?next={{ next.replace('/', '%2F') }}" class="btn btn-lg btn-default btn-block" role="button">注册</a>
 				{% if warning %}
 					<div class="alert alert-danger alert-dismissible" role="alert">
   						<strong>Warning!</strong> {{ warning }}

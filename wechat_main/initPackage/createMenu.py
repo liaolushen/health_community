@@ -56,18 +56,13 @@ menu = '''{
            "sub_button":
            [{
                "type":"view",
-               "name":"健康档案",
+               "name":"医生预约",
+               "url":"http://45.63.123.71:8100/doctor/"
+            },
+            {
+               "type":"view",
+               "name":"健康记录",
                "url":"http://45.63.123.71:8100/"
-            },
-            {
-               "type":"click",
-               "name":"我的医生",
-               "key":"my_doctor"
-            },
-            {
-               "type":"click",
-               "name":"我的药师",
-               "key":"my_pharmacist"
             },
             {
                "type":"view",

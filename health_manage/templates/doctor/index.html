@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>社区小康</title>
+	<link rel="stylesheet" type="text/css" href="{{ static_url("css/bootstrap.min.css") }}">
+	<link rel="stylesheet" type="text/css" href="{{ static_url("css/style.css") }}">
+
+	<script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="{{ static_url("js/bootstrap.min.js") }}"></script>
+</head>
+<body>
+	<div class="header">
+		<div class="container-fluid remove-padding">
+			<div class="row">
+				<div class="col-md-4 col-xs-2 remove-padding"></div>
+				<div class="col-md-4 col-xs-8 header-center remove-padding">
+					<h2>预约挂号</h2>
+				</div>
+				<div class="col-md-4 col-xs-2 remove-padding"></div>
+			</div>
+		</div>
+	</div>
+	<div class="content">
+		<div class="logo">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-4 col-xs-3"></div>
+					<div class="col-md-4 col-xs-6 img-center">
+						<img src="{{ static_url('image/logo.png') }}" alt="社区小康" class="change-img">
+						<img src="{{ static_url('image/word.png') }}" alt="社区小康" class="change-word">
+					</div>
+					<div class="col-md-4 col-xs-3"></div>
+				</div>
+			</div>
+		</div>
+		<div class="description">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-4 col-xs-1"></div>
+					<div class="col-md-4 col-xs-10">
+						<p>说明:选择你需要的功能</p>
+					</div>
+					<div class="col-md-4 col-xs-1"></div>
+				</div>
+			</div>
+		</div>
+		<div class="item_button">
+			<a href="/doctor/neworder" class="btn btn-default btn-lg" role="button">我要预约</a>
+		</div>
+		<div class="item_button">
+			<a href="/doctor/orderrecord" class="btn btn-default btn-lg" role="button">预约记录</a>
+		</div>
+	</div>
+</body>
+</html>
