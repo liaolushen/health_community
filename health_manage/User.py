@@ -66,7 +66,7 @@ class User(object):
             If add successed, return the id of user, the type of id is bson.objectid.ObjectId.
             Else if failed, return the fail reason
         """
-        if email != None or password != None:
+        if email != None and password != None:
             coll = self.db.user
             if coll.find_one({"email":email}):
                 return "用户名已存在！"

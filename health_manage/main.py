@@ -10,6 +10,7 @@ import tornado.web
 from bson.objectid import ObjectId
 
 from User import User
+from Doctor import Doctor
 from img_create import create
 
 from PIL import Image
@@ -165,8 +166,18 @@ class ImageHandler(BaseHandler):
 class DoctorHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self, *args):
+        doctor = Doctor()
         if args[0] == '':
             self.render('doctor/index.html')
+        elif args[0] == 'neworder':
+            self.render('doctor/choose-doctor.html', doctor_info=doctor.get_all_doctors())
+        elif args[0] == 'choosetime':
+            self.render('doctor/choose-time.html')
+        elif args[0] == 'getordersize':
+            self.write(doctor.get_ordersize_by_date(self.get_argument("date"), self.get_argument("doctor_id")))
+            self.set_header("Content-Type", "application/json")
+        elif args[0] == 'createorder':
+            self.render('doctor/create-order.html')
         else:
             self.write('<h1>功能正在开发，请耐心等待</h1>')
 

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+		<title>时间选择</title>
+
+		<script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+		<script type="text/javascript" src="{{ static_url('js/bootstrap.min.js') }}"></script>
+		<script type="text/javascript" src="{{ static_url('js/bootstrap-datepicker.min.js') }}"></script>
+		<script type="text/javascript" src="{{ static_url('js/bootstrap-datepicker.zh-CN.min.js') }}"></script>
+		<script type="text/javascript" src="{{ static_url('js/doctor/choose-time.js') }}"></script>
+
+
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="{{ static_url('css/bootstrap-datepicker3.min.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ static_url('css/doctor/choose-time.css') }}">
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<h3>预约日期</h3>
+			<div class="row">
+				<div class="col-xs-2"></div>
+	            <div class="input-group date col-xs-8">
+					<input id="date" type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+				</div>
+				<div class="col-xs-2"></div>
+			</div>
+
+	        <h3>可选时间</h3>
+	        <div class="row item-time">
+	        	<div class="col-xs-2"></div>
+		        <div class="panel panel-default col-xs-8" id="morning">
+					<div class="panel-body">
+						<p>上午（9:00 ~ 12:00）</p>
+						<p>剩余<span id="morning-data">0</span>名额</p>
+					</div>
+				</div>
+				<div class="col-xs-2"></div>
+			</div>
+
+			<div class="row item-time">
+	        	<div class="col-xs-2"></div>
+		        <div class="panel panel-default col-xs-8" id="afternoon">
+					<div class="panel-body">
+						<p>下午（15:00 ~ 18:00）</p>
+						<p>剩余<span id="afternoon-data">0</span>名额</p>
+					</div>
+				</div>
+				<div class="col-xs-2"></div>
+			</div>
+	    </div>
+	</body>
+</html>
