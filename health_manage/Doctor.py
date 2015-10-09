@@ -111,6 +111,21 @@ class Doctor(object):
         """
         pass
 
+    def get_doctor_by_id(self, doctor_id):
+        """
+        Args:
+            doctor_id
+
+        Return:
+            a dist contant doctor_name, community.
+        """
+        coll = self.db.doctor
+        result = coll.find_one({"_id": ObjectId(doctor_id)})
+        if result is not None:
+            return {"doctor_name": result["doctor_name"], "community": result["community"]}
+        else:
+            return {"error_code": 404, "errror_info": "no such doctor"}
+
     @staticmethod
     def md5(str):
         m = hashlib.md5()   
@@ -119,4 +134,4 @@ class Doctor(object):
 
 if __name__ == '__main__':
     doctor = Doctor();
-    print doctor.get_ordersize_by_date("2015-10-10", "5612a1f5f965b54fd7767f56")
+    print doctor.get_doctor_by_id("5612a1f5f965b54fd7767f56")

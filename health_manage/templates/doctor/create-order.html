@@ -9,19 +9,20 @@
 
 	<script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
 	<script type="text/javascript" src="{{ static_url("js/mui.min.js") }}"></script>
+	<script type="text/javascript" src="{{ static_url('js/doctor/create-order.js') }}"></script>
 </head>
 <body>
 	<h3>您的预约:</h3>
 	<div class="mui-card">
 		<ul class="mui-table-view">
 			<li class="mui-table-view-cell">
-				<span class="order-title">社区：</span><span class="order-value">金羊社区</span>
+				<span class="order-title">社区：</span><span class="order-value">{{ doctor_info["community"] }}</span>
 			</li>
 			<li class="mui-table-view-cell">
-				<span class="order-title">医生：</span><span class="order-value">医疗小组一</span>
+				<span class="order-title">医生：</span><span class="order-value">{{ doctor_info["doctor_name"] }}</span>
 			</li>
 			<li class="mui-table-view-cell">
-				<span class="order-title">时间：</span><span class="order-value">2015年9月28日 15:00~18:00</span>
+				<span class="order-title">时间：</span><span class="order-value" id="order-time">无法获取</span>
 			</li>
 		</ul>
 	</div>
@@ -29,22 +30,20 @@
 	<h3>选择预约人：</h5>
 	<div class="mui-card">
 		<form class="mui-input-group">
+		{% for people_item in order_people_info %}
 			<div class="mui-input-row mui-radio">
-				<label>张三</label>
-				<input name="radio1" type="radio">
+				<label>{{ people_item['name'] }}</label>
+				<input name="people-info" type="radio" value=" {{ people_item['value'] }} ">
 			</div>
-			<div class="mui-input-row mui-radio">
-				<label>李四</label>
-				<input name="radio1" type="radio" checked>
-			</div>
+		{% end %}
 		</form>
 	</div>
 
-	<button class="mui-btn mui-btn-primary add-order">
+	<button class="mui-btn mui-btn-primary add-order" onclick="addPeople();">
 		<span class="mui-icon mui-icon-plus"></span>
 		添加预约人
 	</button>
 
-	<button class="mui-btn mui-btn-positive mui-btn-block comfirm">确认</button>
+	<button class="mui-btn mui-btn-positive mui-btn-block comfirm" onclick="createOrder()">确认</button>
 </body>
 </html>

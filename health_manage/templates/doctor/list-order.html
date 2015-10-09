@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>预约记录</title>
+	<link rel="stylesheet" type="text/css" href="{{ static_url("css/mui.min.css") }}">
+
+	<script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="{{ static_url("js/mui.min.js") }}"></script>
+</head>
+<body>
+	<div class="mui-content-padded">
+		<div id="segmentedControl" class="mui-segmented-control">
+			<a class="mui-control-item mui-active" href="#item1mobile">
+					未确认预约
+				</a>
+			<a class="mui-control-item" href="#item2mobile">
+					已确认预约
+				</a>
+			<a class="mui-control-item" href="#item3mobile">
+					所有预约
+				</a>
+		</div>
+	</div>
+	<div class="mui-content-padded">
+		<div id="item1mobile" class="mui-control-content mui-active">
+			<ul class="mui-table-view">
+			{% for item in sorted(order_info['uncomfirmed_order'], key=lambda k: k['time']) %}
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="/doctor/orderdetail?order_id={{ item['order_id'] }}">
+						{{ item['name'] }} <span style='color:grey; font-size: smaller'>{{ item['time'] }}</span>
+					</a>
+				</li>
+			{% end %}
+			</ul>
+		</div>
+		<div id="item2mobile" class="mui-control-content">
+			<ul class="mui-table-view">
+			{% for item in sorted(order_info['comfirmed_order'], key=lambda k: k['time']) %}
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="/doctor/orderdetail?order_id={{ item['order_id'] }}">
+						{{ item['name'] }} <span style='color:grey; font-size: smaller'>{{ item['time'] }}</span>
+					</a>
+				</li>
+			{% end %}
+			</ul>
+		</div>
+		<div id="item3mobile" class="mui-control-content">
+			<ul class="mui-table-view">
+			{% for item in sorted(order_info['uncomfirmed_order'], key=lambda k: k['time']) %}
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="/doctor/orderdetail?order_id={{ item['order_id'] }}">
+						{{ item['name'] }} <span style='color:grey; font-size: smaller'>{{ item['time'] }}</span>
+					</a>
+				</li>
+			{% end %}
+			{% for item in sorted(order_info['comfirmed_order'], key=lambda k: k['time']) %}
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="/doctor/orderdetail?order_id={{ item['order_id'] }}">
+						{{ item['name'] }} <span style='color:grey; font-size: smaller'>{{ item['time'] }}</span>
+					</a>
+				</li>
+			{% end %}
+			{% for item in sorted(order_info['finished_order'], key=lambda k: k['time']) %}
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="/doctor/orderdetail?order_id={{ item['order_id'] }}">
+						{{ item['name'] }} <span style='color:grey; font-size: smaller'>{{ item['time'] }}</span>
+					</a>
+				</li>
+			{% end %}
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

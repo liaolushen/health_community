@@ -11,6 +11,7 @@ from bson.objectid import ObjectId
 
 from User import User
 from Doctor import Doctor
+from Order import Order
 from img_create import create
 
 from PIL import Image
@@ -28,7 +29,7 @@ class Application(tornado.web.Application):
                             (r'/userinfo', UserInfoHandler),
                             (r'/userrecord/(.*)', UserRecordHandler),
                             (r'/userimg', ImageHandler),
-                            (r'/doctor/(.*)', DoctorHandler)],
+                            (r'/doctor/?(.*)', DoctorHandler)],
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
             cookie_secret="bZJc2sWbQLKos6GkHn/VB9oXwQt8S0R0kRvJ5/xJ89E=",
@@ -167,19 +168,57 @@ class DoctorHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self, *args):
         doctor = Doctor()
+        user = User()
+        order = Order()
         if args[0] == '':
             self.render('doctor/index.html')
         elif args[0] == 'neworder':
             self.render('doctor/choose-doctor.html', doctor_info=doctor.get_all_doctors())
         elif args[0] == 'choosetime':
             self.render('doctor/choose-time.html')
-        elif args[0] == 'getordersize':
-            self.write(doctor.get_ordersize_by_date(self.get_argument("date"), self.get_argument("doctor_id")))
-            self.set_header("Content-Type", "application/json")
         elif args[0] == 'createorder':
-            self.render('doctor/create-order.html')
+            self.render('doctor/create-order.html',
+                doctor_info=doctor.get_doctor_by_id(self.get_argument("doctor_id")),
+                order_people_info=user.get_order_people_info(self.current_user))
+        elif args[0] == 'addorderpeople':
+            self.render('doctor/add-order-people.html')
+        elif args[0] == 'listorder':
+            self.render('doctor/list-order.html', order_info=order.get_all_order_by_user(self.current_user))
+        elif args[0] == 'orderdetail':
+            self.render('doctor/order-detail.html', order_info=order.get_order_by_id(self.get_argument('order_id')))
         else:
             self.write('<h1>功能正在开发，请耐心等待</h1>')
+
+    def post(self, *args):
+        doctor = Doctor()
+        user = User()
+        order = Order()
+        self.set_header("Content-Type", "application/json")
+        if args[0] == 'addorderpeople':
+            self.write(user.update_order_people_info(
+                self.current_user,
+                self.get_argument('name'),
+                self.get_argument('id_card'),
+                self.get_argument('telephone'),
+                self.get_argument('hospital_card')
+            ))
+        elif args[0] == 'getordersize':
+            self.write(doctor.get_ordersize_by_date(self.get_argument("date"), self.get_argument("doctor_id")))
+        elif args[0] == 'createorder':
+            order_info = {
+                'user_id': self.current_user,
+                'doctor_id': self.get_argument('doctor_id'),
+                'community': self.get_argument('community'),
+                'doctor': self.get_argument('doctor'),
+                'hospital_card': self.get_argument('hospital_card'),
+                'id_card': self.get_argument('id_card'),
+                'name': self.get_argument('name'),
+                'telephone': self.get_argument('telephone'),
+                'time': self.get_argument('time')
+            }
+            self.write(order.create_order(order_info))
+
+
 
 if __name__ == '__main__':
     tornado.options.parse_command_line()

@@ -22,6 +22,7 @@ function getOrderSize(choosenDate) {
 
 	$.ajax({
 		url: "/doctor/getordersize",
+		method: "POST",
 		data: postDate,
 		xhrFields: {
 			withCredentials: true
@@ -55,11 +56,11 @@ function replacePage(data) {
 function pageJump(time) {
 	window.location.href =
 		"/doctor/createorder?doctor_id="
-		+decodeURIComponent("doctor_id")
+		+getURLParameter('doctor_id')
 		+"&date="+$('#date').val()
 		+"&time="+time;  
 }
 
 function getURLParameter(name) {
-  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
+	return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
 }

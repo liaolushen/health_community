@@ -157,9 +157,59 @@ class User(object):
         else:
             return "无需修改"
 
+    def get_order_people_info(self, user_id):
+        """
+        Args:
+            user_id
+
+        Return:
+            return a list that contant the all order-people info
+        """
+        coll = self.db.user
+        result = coll.find_one({ "_id": ObjectId(user_id), "order_people_info": { '$exists': True } })
+        if result is not None:
+            to_return = []
+            for item in result["order_people_info"]:
+                new_item = {'name': item['name'], 'value': json.dumps(item)}
+                to_return.append(new_item)
+            return to_return
+        else:
+            return []
+
+    def update_order_people_info(self, user_id, name, id_card, telephone, hospital_card):
+        """
+        Args:
+            user_id
+            name
+            id_card
+            telephone
+            hospital_card
+
+        Return:
+            return a list contant the insert info.
+        """
+        coll = self.db.user
+        result = coll.find_one
+        result = coll.update_one(
+            {'_id': ObjectId(user_id)},
+            {'$push':
+                {
+                    'order_people_info' : {
+                        'name': name,
+                        'id_card': id_card,
+                        'telephone': telephone,
+                        'hospital_card': hospital_card
+                    }
+                }
+            },
+            True)
+        if result.modified_count > 0:
+            return {'code': 200, 'info': '添加成功'}
+        else:
+            return {'code': 500, 'info': '添加失败'}
+
+
 
 if __name__ == '__main__':
     user = User()
-    test = {}
-    test['name'] = "test"
-    user.updateUserInfo("55ce8475f965b50a21c2e3cd", test)
+    print user.update_order_people_info("55f261d2f965b517181b33a9", "廖卢神", "362301199505241019", "15626470758", "123456")

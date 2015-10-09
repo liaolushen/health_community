@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>预约详情</title>
+	<link rel="stylesheet" type="text/css" href="{{ static_url("css/mui.min.css") }}">
+	<link rel="stylesheet" type="text/css" href="{{ static_url('css/doctor/create-order.css') }}">
+
+	<script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="{{ static_url("js/mui.min.js") }}"></script>
+</head>
+<body>
+	<h3>您的预约:</h3>
+	<div class="mui-card">
+		<ul class="mui-table-view">
+		{% if order_info %}
+			<li class="mui-table-view-cell">
+				<span class="order-title">姓名</span><span class="order-value" id="order-time">{{ order_info['name'] }}</span>
+			</li>
+			<li class="mui-table-view-cell">
+				<span class="order-title">社区</span><span class="order-value">{{ order_info['community'] }}</span>
+			</li>
+			<li class="mui-table-view-cell">
+				<span class="order-title">医生</span><span class="order-value">{{ order_info['doctor'] }}</span>
+			</li>
+			<li class="mui-table-view-cell">
+				<span class="order-title">手机</span><span class="order-value" id="order-time">{{ order_info['telephone'] }}</span>
+			</li>
+			<li class="mui-table-view-cell">
+				<span class="order-title">身份证</span><span class="order-value" id="order-time">{{ order_info['id_card'] }}</span>
+			</li>
+			<li class="mui-table-view-cell">
+				<span class="order-title">诊疗卡</span><span class="order-value" id="order-time">{{ order_info['hospital_card'] }}</span>
+			</li>
+			<li class="mui-table-view-cell">
+				<span class="order-title">时间</span><span class="order-value" id="order-time">{{ order_info['time'] }}</span>
+			</li>
+		{% else %}
+			<li class="mui-table-view-cell">
+				找不到该订单
+			</li>
+		{% end %}
+		</ul>
+	</div>
+
+	<button class="mui-btn mui-btn-positive mui-btn-block comfirm" onclick="window.location = history.back()">确认</button>
+</body>
+</html>
