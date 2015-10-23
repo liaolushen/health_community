@@ -19,7 +19,7 @@ from updateData import updateData
 import os
 
 from tornado.options import define, options
-define("port", default=9980, help="run on the given port", type=int)
+define("port", default=80, help="run on the given port", type=int)
 
 def checksignature(signature, timestamp, nonce):
     args = []
