@@ -55,7 +55,7 @@ def newsInsert(item):
     insert_item = {}
     insert_item['media_id'] = item['media_id']
     insert_item['update_time'] = item['update_time']
-    insert_item['type'] = item['content']['news_item'][0]['title'].split('|')[0].encode("utf-8")
+    insert_item['type'] = item['content']['news_item'][0]['title'].split('|')[0].strip('| ').encode("utf-8")
     content = []
     for news_item in item['content']['news_item']:
         insert_single_item = {}
