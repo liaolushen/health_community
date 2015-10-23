@@ -62,7 +62,7 @@ class MainHandler(tornado.web.RequestHandler):
             if data.find('Event').text == "CLICK": # 点击菜单拉取消息时的事件推送
                 self.write(CE.click_res(data))
             elif data.find('Event').text == "subscribe": # 订阅事件
-                self.werite(CE.subscribe_res(data)) 
+                self.write(CE.subscribe_res(data)) 
         if data.find('MsgType').text == "text":
             self.write(TR.msgRes(data))
 
