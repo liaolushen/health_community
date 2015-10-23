@@ -19,36 +19,31 @@ posturl = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" + getAcc
 menu = '''{
      "button":[
        {
-           "name":"健康资讯",
+           "name":"社区资讯",
            "sub_button":
            [{
                "type":"click",
-               "name":"便民服务",
-               "key":"handy_service"
+               "name":"社区资讯",
+               "key":"community_info"
             },
             {
                "type":"click",
-               "name":"健康生活",
-               "key":"health_life"
-            },
-            {
-               "type":"click",
-               "name":"优惠资讯",
-               "key":"cheap_info"
+               "name":"健康知识",
+               "key":"health_knowlege"
             }]
        },
        {
-           "name":"微互动",
+           "name":"医民互动",
            "sub_button":
            [{
-               "type":"click",
-               "name":"专家帮忙",
-               "key":"expert_help"
+               "type":"view",
+               "name":"骨质疏松",
+               "url":"http://mp.weixin.qq.com/s?__biz=MzA5ODc5NDM2NA==&mid=400252841&idx=1&sn=0f99814ddbfa14d84669fa1f30c70fcd#rd"
             },
             {
-               "type":"view",
-               "name":"线下活动",
-               "url":"http://www.sojump.com/jq/5287934.aspx"
+               "type":"click",
+               "name":"东园新村活动",
+               "key":"current_activity"
             }]
       },
       {

@@ -22,7 +22,7 @@ appsecret = "3ca4d15d14e2f61cee55e52edb53dd3f"
 
 def getAccessToken():
     db_content = coll.find_one()
-    if time.time() - db_content['create_time'] > 7000:
+    if time.time() - db_content['create_time'] > 3000:
         updateAccessToken()
         db_content = coll.find_one()
     return db_content['access_token']

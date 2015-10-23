@@ -33,7 +33,6 @@ def picUpdate(delay):
         result = json.loads(request.read())
         dbCheck(result)
         offset += 20
-      print "time1"
       time.sleep(delay)
 
   thread = threading.Thread(target = update, args = (delay,))
