@@ -12,6 +12,7 @@ from bson.objectid import ObjectId
 from User import User
 from Doctor import Doctor
 from Order import Order
+from Eyes import Eyes
 from img_create import create
 
 from PIL import Image
@@ -29,7 +30,9 @@ class Application(tornado.web.Application):
                             (r'/userinfo', UserInfoHandler),
                             (r'/userrecord/(.*)', UserRecordHandler),
                             (r'/userimg', ImageHandler),
-                            (r'/doctor/?(.*)', DoctorHandler)],
+                            (r'/doctor/?(.*)', DoctorHandler),
+                            (r'/eyes/?(.*)', EyesHandler),
+                            (r'/background/?(.*)', BackgroundHandler)],
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
             cookie_secret="bZJc2sWbQLKos6GkHn/VB9oXwQt8S0R0kRvJ5/xJ89E=",
@@ -163,7 +166,9 @@ class ImageHandler(BaseHandler):
         for line in fobj.getvalue():
             self.write(line)
         self.set_header("Content-type",  "image/png")
+
         
+# 预约系统
 class DoctorHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self, *args):
@@ -218,7 +223,53 @@ class DoctorHandler(BaseHandler):
             }
             self.write(order.create_order(order_info))
 
+# 白内障系统
+class EyesHandler(BaseHandler):
+    @tornado.web.authenticated
+    def get(self, *args):
+        eyes = Eyes()
+        if args[0] == '':
+            self.render('eyes/index.html')
+        if args[0] == 'detail':
+            if not self.get_argument("id_number", None):
+                self.redirect('/eyes/')
+            result = eyes.get_order_by_id_number(self.get_argument("id_number"))
+            if not result:
+                self.redirect('/eyes/')
+            self.render('eyes/detail.html', result=result)
 
+    def post(self, *args):
+        eyes = Eyes()
+        if args[0] == 'verify':
+            result = eyes.get_order_by_id_number(self.get_argument("id_number"))
+            if result:
+                self.write(dict(code=200, info="OK"))
+            else:
+                self.write(dict(code=500, info="无法查询到该身份证号的预约记录！"))
+
+class BackgroundHandler(BaseHandler):
+    def get(self, *args):
+        verify = self.get_argument("admin", None)
+        if verify != "admin":
+            self.write('<h1>Who are you?</h1>')
+            return
+        if args[0] == "eyes":
+            self.render('eyes/create.html')
+
+    def post(self, *args):
+        eyes = Eyes()
+        if args[0] == "eyes":
+            new_order = {
+                "id_number": self.get_argument("id_number"),
+                "name": self.get_argument("name"),
+                "sex": self.get_argument("sex"),
+                "result": self.get_argument("result"),
+                "time": self.get_argument("time"),
+                "location": self.get_argument("location"),
+                "doctor": self.get_argument("doctor")
+            }
+            self.write(eyes.create_order(new_order))
+        
 
 if __name__ == '__main__':
     tornado.options.parse_command_line()

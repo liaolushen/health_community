@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>社区小康</title>
+    <link rel="stylesheet" type="text/css" href="{{ static_url("css/bootstrap.min.css") }}">
+    <link rel="stylesheet" type="text/css" href="{{ static_url("css/style.css") }}">
+
+    <script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ static_url("js/bootstrap.min.js") }}"></script>
+    <style type="text/css">
+    .query-form {
+        margin: auto;
+        margin-top: 50px;
+        width: 80%;
+        text-decoration: center;
+    }
+
+    #alert {
+        display: none;
+        color: red;
+    }
+    </style>
+
+    <script type="text/javascript">
+        function cancel() {
+            $("#idNumber").val("");
+            $("#alert").css("display", "none");
+        }
+
+        function verify() {
+            var identity = $("#idNumber").val();
+            if (identity.length != 18) {
+                $("#alert").text("请输入18位的身份证号码!");
+                $("#alert").css("display", "block");
+            } else {
+                var postDate = {"id_number": identity};
+                $.ajax({
+                    url: "/eyes/verify",
+                    method: "POST",
+                    data: postDate,
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function(data) {
+                        if (data['code'] == 500) {
+                            $("#alert").text(data['info']);
+                            $("#alert").css("display", "block");
+                        } else if (data['code'] == 200) {
+                            jumpToDetail();
+                        }
+                    }
+                })
+            }
+        }
+
+        function jumpToDetail() {
+            window.location.href = "/eyes/detail?id_number=" + $("#idNumber").val()
+        }
+
+
+    </script>
+</head>
+<body>
+    <div class="header">
+        <div class="container-fluid remove-padding">
+            <div class="row">
+                <div class="col-md-4 col-xs-2 remove-padding"></div>
+                <div class="col-md-4 col-xs-8 header-center remove-padding">
+                    <h2>白内障诊疗查询</h2>
+                </div>
+                <div class="col-md-4 col-xs-2 remove-padding"></div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="logo">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4 col-xs-3"></div>
+                    <div class="col-md-4 col-xs-6 img-center">
+                        <img src="{{ static_url('image/logo.png') }}" alt="社区小康" class="change-img">
+                        <img src="{{ static_url('image/word.png') }}" alt="社区小康" class="change-word">
+                    </div>
+                    <div class="col-md-4 col-xs-3"></div>
+                </div>
+            </div>
+        </div>
+        <div class="description">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4 col-xs-1"></div>
+                    <div class="col-md-4 col-xs-10">
+                        <p>说明:输入你的身份证号码查询你的诊疗预约结果</p>
+                    </div>
+                    <div class="col-md-4 col-xs-1"></div>
+                </div>
+            </div>
+        </div>
+        <div class="query-form">
+            <p id="alert">输入身份证号码</p>
+            <input type="text" id="idNumber" class="form-control" placeholder="输入身份证号码"/>
+            <div class="item_button">
+                <button class="btn btn-default btn-lg" type="button" onclick="cancel()">取消</button>
+                <button class="btn btn-primary btn-lg" type="button" onclick="verify()">确认</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
