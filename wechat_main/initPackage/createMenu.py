@@ -51,6 +51,11 @@ menu = '''{
            "sub_button":
            [{
                "type":"view",
+               "name":"白内障诊疗查询",
+               "url":"http://45.63.123.71:8100/eyes/"
+            },
+            {
+               "type":"view",
                "name":"医生预约",
                "url":"http://45.63.123.71:8100/doctor/"
             },
